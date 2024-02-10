@@ -6,8 +6,11 @@ name = "pypi"
 [packages]
 sympy = "*"
 pytest = "*"
+numpy = "*"
+matplotlib = "*"
 
 [dev-packages]
+ipykernel = "*"
 
 [requires]
 python_version = "3.9"
