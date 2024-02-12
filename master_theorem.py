@@ -1,58 +1,85 @@
 # master_theorem.py
 
-from sympy import log, oo, limit, solve, Symbol, simplify
+from math import log
+import matplotlib.pyplot as plt
+import numpy as np
 
-def check_regularity_condition(a, b, f_n, n_symbol):
-    """
-    Checks the regularity condition for Case 3.
-    """
-    k = Symbol('k', real=True)  # Symbol for the constant k in the regularity condition
-    n_b = simplify(n_symbol / b)  # Simplify n/b for substitution
-    lhs = a * f_n.subs(n_symbol, n_b)  # Calculate af(n/b)
-    rhs = k * f_n  # Calculate kf(n)
-
-    # Solve for k to check if there exists a k < 1 that satisfies the inequality
-    k_solution = solve(lhs - rhs, k)
-
-    if k_solution:
-        # Check if any solution for k satisfies k < 1
-        for sol in k_solution:
-            if sol < 1:
-                return True  # Regularity condition is satisfied
-    return False  # Regularity condition is not satisfied or could not be verified
-
-def master_theorem(a, b, f_n, n_symbol):
-    """
-    Evaluate the Master Theorem for a given recurrence relation.
+def evaluate_master_theorem(a, b, k):
+    if not all(isinstance(param, int) for param in [a, b, k]):
+        raise ValueError("All parameters (a, b, k) must be integers.")
+    if a <= 0:
+        raise ValueError("Parameter 'a' must be greater than 0.")
+    if b <= 1:
+        raise ValueError("Parameter 'b' must be greater than 1.")
+    if k < 0:
+        raise ValueError("Parameter 'k' must be non-negative.")
     
-    Parameters:
-    - a: The number of subproblems into which the problem is divided.
-    - b: The factor by which the subproblem size is reduced.
-    - f_n: The function f(n) as a SymPy expression.
-    - n_symbol: The symbol used for n in f_n.
+    log_b_a = log(a, b)
     
-    Returns:
-    - The asymptotic behavior of T(n).
-    """
-    # Calculate n^(log_b(a))
-    n_log_b_a = n_symbol ** log(a, b)
-    
-    # Use limits to compare the growth rates of f(n) and n^(log_b(a))
-    limit_comparison = limit(f_n / n_log_b_a, n_symbol, oo)
-    
-    # Specifically handle constant or slower-growing f(n) for Case 1
-    if simplify(f_n).is_constant():
-        # If f(n) is constant, it typically leads to a logarithmic complexity
-        return "Case 1: T(n) = Theta(log n)"
-    elif limit_comparison == 0:
-        # For non-constant f(n) that grows slower than n^(log_b(a))
-        return f"Case 1: T(n) = Theta(n^{log(a, b)})"
-    elif limit_comparison == oo and not check_regularity_condition(a, b, f_n, n_symbol):
-        return "Further analysis required, regularity condition not satisfied."
-    elif limit_comparison == oo:
-        # Case 3 with regularity condition satisfied
-        return f"Case 3: T(n) = Theta({f_n})"
+    if log_b_a > k:
+        complexity = f"Θ(n^{log_b_a:.2f})"
+        case = "Case 1"
+    elif log_b_a == k:
+        complexity = "Θ(n^k log n)"
+        case = "Case 2"
     else:
-        # Case 2 where f(n) grows at a rate comparable to n^(log_b(a))
-        return f"Case 2: T(n) = Theta(n^{log(a, b)} log(n))"
+        complexity = f"Θ(n^{k})"
+        case = "Case 3"
+    return complexity, case
 
+
+def plot_master_theorem(a, b, k):
+    n = np.linspace(1, 100, 400)  # Generate an array of n values from 1 to 100
+    n_log_b_a = n ** (np.log(a) / np.log(b))  # Calculate n^(log_b(a))
+    f_n = n ** k  # Calculate f(n) = n^k
+    
+    # Determine the complexity for labeling and plotting
+    log_b_a = np.log(a) / np.log(b)
+    if log_b_a > k:
+        complexity = r'$\Theta(n^{\log_b(a)})$'
+        complexity_function = n_log_b_a
+    elif log_b_a == k:
+        complexity = r'$\Theta(n^k \log n)$'
+        complexity_function = n ** k * np.log(n)
+    else:
+        complexity = r'$\Theta(n^k)$'
+        complexity_function = f_n
+    
+    plt.figure(figsize=(10, 6))
+    
+    # Plot n^(log_b(a))
+    plt.plot(n, n_log_b_a, label=r'$n^{\log_b(a)}$', color='blue')
+    
+    # Plot f(n) = n^k
+    plt.plot(n, f_n, label=r'$f(n) = n^k$', color='red')
+    
+    # Plot the time complexity function
+    plt.plot(n, complexity_function, label=complexity + ' (Time Complexity)', color='green', linestyle='--')
+    
+    plt.xlabel('n')
+    plt.ylabel('Value')
+    plt.title('Master Theorem Visualization')
+    plt.legend()
+    plt.grid(True)
+
+    plt.show()
+
+
+def main():
+    # Prompt user for input
+    print("Enter the values for evaluating the Master Theorem:")
+    a = float(input("a (number of subproblems): "))
+    b = float(input("b (factor by which the problem size is reduced): "))
+    k = float(input("k (exponent in the work done outside the recursive calls): "))
+
+    # Evaluate and display the result
+    complexity, case = evaluate_master_theorem(a, b, k)
+    print(f"\nRecurrence Relation: T(n) = {a}T(n/{b}) + n^{k}")
+    print(f"Complexity: {complexity} ({case})")
+
+    # Plot the visualization
+    plot_master_theorem(a, b, k)  
+
+
+if __name__ == '__main__':
+    main()
