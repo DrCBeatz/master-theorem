@@ -24,7 +24,7 @@ import numpy as np
     (2, 1, 1, "Error", "Error", "Division by 1 - expected error"),
     (-1, 2, 1, "Error", "Error", "Negative subproblems - expected error"),
 ])
-def test_master_theorem_cases(a, b, k, expected_start, expected_case, description):
+def test_master_theorem_cases(a: int, b: int, k: int, expected_start: str, expected_case: str, description: str) -> None:
     if expected_case == "Error":
         with pytest.raises(ValueError):
             evaluate_master_theorem(a, b, k)

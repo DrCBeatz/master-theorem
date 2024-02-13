@@ -3,8 +3,9 @@
 from math import log
 import matplotlib.pyplot as plt
 import numpy as np
+from typing import Tuple
 
-def evaluate_master_theorem(a, b, k):
+def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str]:
     # Ensure all parameters are integers and meet specific constraints
     if not all(isinstance(param, int) for param in [a, b, k]):
         raise ValueError("All parameters (a, b, k) must be integers.")
@@ -30,7 +31,7 @@ def evaluate_master_theorem(a, b, k):
     return complexity, case
 
 
-def plot_master_theorem(a, b, k):
+def plot_master_theorem(a: int, b: int, k: int) -> None:
     n = np.linspace(1, 100, 400)
     n_log_b_a = n ** (log(a) / log(b))
     f_n = n ** k
@@ -75,7 +76,7 @@ def plot_master_theorem(a, b, k):
     plt.show()
 
 
-def main():
+def main() -> None:
     print("Enter the values for evaluating the Master Theorem:")
     
     # Read inputs as floats first
