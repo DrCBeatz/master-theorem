@@ -10,14 +10,12 @@ def evaluate_master_theorem(a, b, k):
         raise ValueError("All parameters (a, b, k) must be integers.")
     if a <= 0:
         raise ValueError("Parameter 'a' must be greater than 0.")
-    if b <= 1:  # This check now correctly identifies b = 1 as an error case.
+    if b <= 1:  # Identify b = 1 as an error case.
         raise ValueError("Parameter 'b' must be greater than 1 to ensure the problem size is reduced.")
     if k < 0:
         raise ValueError("Parameter 'k' must be non-negative.")
 
     log_b_a = log(a, b)
-    if log_b_a.is_integer():
-        log_b_a = int(log_b_a)  # Simplify to integer if it's an integer
     
     if log_b_a > k:
         complexity = f"Θ(n^{log_b_a})" if isinstance(log_b_a, int) else f"Θ(n^{log_b_a:.2f})"
@@ -36,6 +34,10 @@ def plot_master_theorem(a, b, k):
     n = np.linspace(1, 100, 400)
     n_log_b_a = n ** (log(a) / log(b))
     f_n = n ** k
+
+    # Use actual values for a, b, and k in the legend labels
+    n_log_b_a_label = f'$n^{{\\log_{{{b}}}({a})}}$' if a != 1 or b != 2 or k != 0 else '$\\log(n)$'
+    f_n_label = f'$f(n) = n^{{{k}}}$' if k != 0 else '$f(n) = 1$'  # Special case for k=0
 
     # Adjust for binary search to directly use log(n)
     if a == 1 and b == 2 and k == 0:
@@ -56,8 +58,8 @@ def plot_master_theorem(a, b, k):
             time_complexity = n_log_b_a
 
     plt.figure(figsize=(10, 6))
-    plt.plot(n, n_log_b_a, label=f'$n^{{\log_{{{b}}}({a})}}$', color='blue')
-    plt.plot(n, f_n, label=f'$f(n) = n^{{k}}$', color='red')
+    plt.plot(n, n_log_b_a, label=n_log_b_a_label, color='blue')
+    plt.plot(n, f_n, label=f_n_label, color='red')
     plt.plot(n, time_complexity, label=complexity_label + " (Time Complexity)", linestyle='--', color='green')
 
     plt.title('Master Theorem Visualization')
@@ -66,7 +68,7 @@ def plot_master_theorem(a, b, k):
     plt.legend()
     plt.grid(True)
 
-    # Correctly place the label for the time complexity curve
+    # Place the label for the time complexity curve
     label_y_pos = max(time_complexity) if a != 1 or b != 2 or k != 0 else np.max(np.log(n))
     plt.text(n[-1] * 0.9, label_y_pos, complexity_label, fontsize=12, verticalalignment='bottom')
 
