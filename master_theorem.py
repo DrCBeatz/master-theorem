@@ -59,19 +59,20 @@ def plot_master_theorem(a: int, b: int, k: int) -> None:
             time_complexity = n_log_b_a
 
     plt.figure(figsize=(10, 6))
-    plt.plot(n, n_log_b_a, label=n_log_b_a_label, color='blue')
-    plt.plot(n, f_n, label=f_n_label, color='red')
-    plt.plot(n, time_complexity, label=complexity_label + " (Time Complexity)", linestyle='--', color='green')
-
+    plt.plot(n, n_log_b_a, label='$n^{\\log_b a}$', color='blue')
+    plt.plot(n, f_n, label='f(n)', linestyle='--', color='red')
+    plt.plot(n, time_complexity, label='Time Complexity', linestyle='-', color='green')
+    
     plt.title('Master Theorem Visualization')
     plt.xlabel('n')
     plt.ylabel('Value')
     plt.legend()
     plt.grid(True)
 
-    # Place the label for the time complexity curve
-    label_y_pos = max(time_complexity) if a != 1 or b != 2 or k != 0 else np.max(np.log(n))
-    plt.text(n[-1] * 0.9, label_y_pos, complexity_label, fontsize=12, verticalalignment='bottom')
+    # Add annotation for time complexity
+    plt.text(0.5, 0.95, f'T(n) = {complexity_label}', horizontalalignment='center',
+             verticalalignment='center', transform=plt.gca().transAxes, fontsize=12, color='purple', bbox=dict(facecolor='white', alpha=0.5))
+    
 
     plt.show()
 
