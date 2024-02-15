@@ -4,12 +4,6 @@ import pytest
 from master_theorem import evaluate_master_theorem
 import numpy as np
 
-# test_master_theorem.py
-
-import pytest
-from master_theorem import evaluate_master_theorem
-import numpy as np
-
 @pytest.mark.parametrize("a,b,k,expected_start,expected_case,description", [
     # Valid test cases, ensuring all parameters are integers
     (4, 2, 1, "Θ(n^", "Case 1", "Generic algorithm - Case 1 (faster growth of recursive part)"),
