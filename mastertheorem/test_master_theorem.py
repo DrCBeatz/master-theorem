@@ -1,7 +1,7 @@
 # test_master_theorem.py
 
 import pytest
-from master_theorem import evaluate_master_theorem
+from mastertheorem.master_theorem import evaluate_master_theorem
 import numpy as np
 
 @pytest.mark.parametrize("a,b,k,expected_start,expected_case,description", [
