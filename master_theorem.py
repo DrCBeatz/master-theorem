@@ -33,36 +33,39 @@ def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str]:
 
 def plot_master_theorem(a: int, b: int, k: int) -> None:
     n = np.linspace(1, 100, 400)
-    n_log_b_a = n ** (log(a) / log(b))
-    f_n = n ** k
+    log_b_a = log(a, b)
 
-    # Use actual values for a, b, and k in the legend labels
-    n_log_b_a_label = f'$n^{{\\log_{{{b}}}({a})}}$' if a != 1 or b != 2 or k != 0 else '$\\log(n)$'
-    f_n_label = f'$f(n) = n^{{{k}}}$' if k != 0 else '$f(n) = 1$'  # Special case for k=0
+    # Simplify the label for f(n)
+    f_n_label = 'f(n)'
 
-    # Adjust for binary search to directly use log(n)
+    # Determine the case based on a, b, and k
     if a == 1 and b == 2 and k == 0:
+        # Special case for Binary Search
         complexity_label = r'$\Theta(\log n)$'
         time_complexity = np.log(n)
-    elif a == 2 and b == 2 and k == 1:  # Specific case for Merge Sort
+    elif a == 2 and b == 2 and k == 1:
+        # Special case for Merge Sort
         complexity_label = r'$\Theta(n \log n)$'
         time_complexity = n * np.log(n)
-    elif a in [7, 3] and b == 2:  # Handle Strassen's and Karatsuba's algorithms
-        complexity_label = f'$\Theta(n^{{\log_{{{b}}}({a})}})$'  # Directly use log base b of a
-        time_complexity = n ** log(a, b)
-    else:  # General cases
-        if log(a, b).is_integer():
-            complexity_label = f'$\Theta(n^{{\log_{{{b}}}({a})}})$'  # Display log base b of a as an integer
-            time_complexity = n_log_b_a
+    else:
+        if log_b_a > k:
+            # Case 1: T(n) = Θ(n^log_b(a))
+            complexity_label = f'$\\Theta(n^{{\\log_{{{b}}}({a})}})$' if not log_b_a.is_integer() else f'$\\Theta(n^{{{int(log_b_a)}}})$'
+            time_complexity = n ** log_b_a
+        elif log_b_a == k:
+            # Adjust formatting for n^1 log(n) to n log(n)
+            complexity_label = r'$\Theta(n \log n)$' if k == 1 else r'$\Theta(n^' + str(k) + r' \log n)$'
+            time_complexity = n ** k * np.log(n)
         else:
-            complexity_label = f'$\Theta(n^{{\log_{{{b}}}({a}):.2f}})$'  # Keep decimal for non-integer log results
-            time_complexity = n_log_b_a
+            # Case 3: T(n) = Θ(n^k), with special handling to omit n^0
+            complexity_label = r'$\Theta(1)$' if k == 0 else f'$\\Theta(n^{{{k}}})$'
+            time_complexity = np.ones_like(n) if k == 0 else n ** k
 
     plt.figure(figsize=(10, 6))
-    plt.plot(n, n_log_b_a, label='$n^{\\log_b a}$', color='blue')
-    plt.plot(n, f_n, label='f(n)', linestyle='--', color='red')
+    plt.plot(n, n ** log_b_a, label='$n^{\\log_b a}$', color='blue')
+    plt.plot(n, n ** k, label=f'{f_n_label}', linestyle='--', color='red')
     plt.plot(n, time_complexity, label='T(n) (Time Complexity)', linestyle='-', color='green')
-    
+
     plt.title('Master Theorem Visualization')
     plt.xlabel('n')
     plt.ylabel('Value')
@@ -70,9 +73,8 @@ def plot_master_theorem(a: int, b: int, k: int) -> None:
     plt.grid(True)
 
     # Add annotation for time complexity
-    plt.text(0.5, 0.95, f'T(n) = {complexity_label}', horizontalalignment='center',
+    plt.text(0.5, 0.95, 'T(n) = ' + complexity_label, horizontalalignment='center',
              verticalalignment='center', transform=plt.gca().transAxes, fontsize=12, color='purple', bbox=dict(facecolor='white', alpha=0.5))
-    
 
     plt.show()
 
