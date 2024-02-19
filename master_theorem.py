@@ -61,7 +61,7 @@ def plot_master_theorem(a: int, b: int, k: int) -> None:
     plt.figure(figsize=(10, 6))
     plt.plot(n, n_log_b_a, label='$n^{\\log_b a}$', color='blue')
     plt.plot(n, f_n, label='f(n)', linestyle='--', color='red')
-    plt.plot(n, time_complexity, label='Time Complexity', linestyle='-', color='green')
+    plt.plot(n, time_complexity, label='T(n) (Time Complexity)', linestyle='-', color='green')
     
     plt.title('Master Theorem Visualization')
     plt.xlabel('n')
