@@ -1,5 +1,7 @@
 # master_theorem.py
 
+import os
+from django.conf import settings
 from math import log
 import matplotlib.pyplot as plt
 import numpy as np
@@ -31,7 +33,7 @@ def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str]:
     return complexity, case
 
 
-def plot_master_theorem(a: int, b: int, k: int) -> None:
+def plot_master_theorem(a: int, b: int, k: int, filename: str) -> str:
     n = np.linspace(1, 100, 400)
     log_b_a = log(a, b)
 
@@ -77,6 +79,10 @@ def plot_master_theorem(a: int, b: int, k: int) -> None:
              verticalalignment='center', transform=plt.gca().transAxes, fontsize=12, color='purple', bbox=dict(facecolor='white', alpha=0.5))
 
     plt.show()
+    plot_path = os.path.join(settings.BASE_DIR, 'static', 'plots', filename)
+    plt.savefig(plot_path)
+
+    return os.path.join('static', 'plots', filename)
 
 
 def main() -> None:
