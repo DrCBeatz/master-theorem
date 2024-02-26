@@ -1,4 +1,4 @@
-# test_master_theorem.py
+# mastertheorem/tests/test_master_theorem.py
 
 import pytest
 from mastertheorem.master_theorem import evaluate_master_theorem

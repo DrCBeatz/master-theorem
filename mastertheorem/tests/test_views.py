@@ -1,7 +1,29 @@
+# mastertheorem/tests/test_views.py
+
 import pytest
 from rest_framework.test import APIClient
 from mastertheorem.models import Algorithm
 
+@pytest.mark.django_db
+def test_evaluate_master_theorem_api_view_success():
+    client = APIClient()
+    data = {'a': 2, 'b': 2, 'k': 1}
+    response = client.post('/api/evaluate/', data, format='json')
+    assert response.status_code == 200
+    assert 'complexity' in response.data
+    assert 'case' in response.data
+    assert 'plot_url' in response.data
+
+@pytest.mark.django_db
+def test_evaluate_master_theorem_api_view_failure():
+    client = APIClient()
+    invalid_data = {'a': -1, 'b': 0, 'k': -1}
+    response = client.post('/api/evaluate/', invalid_data, format='json')
+    assert response.status_code == 400
+    assert 'a' in response.data
+    assert 'b' in response.data
+    assert 'k' in response.data
+    
 @pytest.mark.django_db
 def test_algorithm_list_view():
     # Set up

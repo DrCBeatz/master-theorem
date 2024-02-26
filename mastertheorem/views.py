@@ -6,11 +6,39 @@ from django.shortcuts import render
 from .forms import MasterTheoremForm
 from .master_theorem import evaluate_master_theorem, plot_master_theorem
 from django.utils.crypto import get_random_string
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import EvaluateMasterTheoremSerializer
 from rest_framework import generics
 from .models import Algorithm
 from .serializers import AlgorithmSerializer
 
+class EvaluateMasterTheoremAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = EvaluateMasterTheoremSerializer(data=request.data)
+        if serializer.is_valid():
+            a = serializer.validated_data['a']
+            b = serializer.validated_data['b']
+            k = serializer.validated_data['k']
+            complexity, case = evaluate_master_theorem(a, b, k)
+            
+            # Generate a unique filename for the plot image
+            filename = f"plot_{get_random_string(8)}.png"
+            plot_url = plot_master_theorem(a, b, k, filename)
+            
+            # Construct the full URL to the plot image to return in the response
+            plot_full_url = request.build_absolute_uri(f'/static/plots/{filename}')
+
+            # Include complexity info and the plot URL in the response
+            data = {
+                'complexity': complexity,
+                'case': case,
+                'plot_url': plot_full_url,
+            }
+            return Response(data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 class AlgorithmList(generics.ListAPIView):
     queryset = Algorithm.objects.all()
     serializer_class = AlgorithmSerializer
