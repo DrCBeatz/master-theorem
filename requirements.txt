@@ -13,6 +13,7 @@ exceptiongroup==1.2.0 ; python_version < '3.11'
 environs[django]==9.5.0
 whitenoise==6.1.0
 gunicorn==20.1.0
+djangorestframework==3.14.0
 fonttools==4.48.1 ; python_version >= '3.8'
 importlib-resources==6.1.1 ; python_version < '3.10'
 iniconfig==2.0.0 ; python_version >= '3.7'

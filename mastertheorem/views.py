@@ -7,6 +7,14 @@ from .forms import MasterTheoremForm
 from .master_theorem import evaluate_master_theorem, plot_master_theorem
 from django.utils.crypto import get_random_string
 
+from rest_framework import generics
+from .models import Algorithm
+from .serializers import AlgorithmSerializer
+
+class AlgorithmList(generics.ListAPIView):
+    queryset = Algorithm.objects.all()
+    serializer_class = AlgorithmSerializer
+
 def evaluate_view(request):
     # Define default values for the form
     default_values = {'a': 1, 'b': 2, 'k': 0}
@@ -44,3 +52,4 @@ def evaluate_view(request):
     else:
         form = MasterTheoremForm(initial=default_values)
     return render(request, 'evaluate_master_theorem.html', {'form':form})
+
