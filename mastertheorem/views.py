@@ -14,6 +14,9 @@ from rest_framework import generics
 from .models import Algorithm
 from .serializers import AlgorithmSerializer
 
+def frontend(request):
+    return render(request, "index.html")
+
 class EvaluateMasterTheoremAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = EvaluateMasterTheoremSerializer(data=request.data)
