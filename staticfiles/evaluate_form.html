@@ -1,0 +1,6 @@
+<form method="post">
+  {% csrf_token %}
+  <h3>Enter the values of a, b, and k to evaluate the Master Theorem:</h3>
+  {{ form.as_p }}
+  <button type="submit">Evaluate</button>
+</form>
