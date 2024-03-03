@@ -1,2 +1,7 @@
 *.ipynb linguist-detectable=false
 *.py linguist-detectable=true
+*.js linguist-detectable=false
+*.css linguist-detectable=false
+*.html linguist-detectable=true
+*.ts linguist-detectable=true
+*.tsx linguist-detectable=true
