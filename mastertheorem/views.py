@@ -27,7 +27,7 @@ class EvaluateMasterTheoremAPIView(APIView):
             complexity, case = evaluate_master_theorem(a, b, k)
 
                         # Directory where plot images are saved
-            plots_directory = os.path.join(settings.BASE_DIR, 'static', 'plots')
+            plots_directory = os.path.join(settings.MEDIA_ROOT, 'plots')
 
             # Delete all existing .png files in the directory
             for filename in os.listdir(plots_directory):
@@ -41,13 +41,14 @@ class EvaluateMasterTheoremAPIView(APIView):
             
             # Generate a unique filename for the plot image
             filename = f"plot_{get_random_string(8)}.png"
-            plot_url = plot_master_theorem(a, b, k, filename)
+            plot_relative_path = plot_master_theorem(a, b, k, filename)
 
             
             
             # Construct the full URL to the plot image to return in the response
-            plot_full_url = request.build_absolute_uri(f'/static/plots/{filename}')
 
+            plot_full_url = request.build_absolute_uri(os.path.join(settings.MEDIA_URL, plot_relative_path))
+            
             # Include complexity info and the plot URL in the response
             data = {
                 'complexity': complexity,

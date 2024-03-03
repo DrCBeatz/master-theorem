@@ -79,10 +79,10 @@ def plot_master_theorem(a: int, b: int, k: int, filename: str) -> str:
              verticalalignment='center', transform=plt.gca().transAxes, fontsize=12, color='purple', bbox=dict(facecolor='white', alpha=0.5))
 
     plt.show()
-    plot_path = os.path.join(settings.BASE_DIR, 'static', 'plots', filename)
+    plot_path = os.path.join(settings.MEDIA_ROOT, 'plots', filename)
     plt.savefig(plot_path)
 
-    return os.path.join('static', 'plots', filename)
+    return os.path.join('plots', filename)
 
 
 def main() -> None:
