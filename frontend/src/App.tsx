@@ -12,6 +12,9 @@ import {
   MDBInput,
   MDBRadio,
   MDBBtnGroup,
+  MDBAccordion,
+  MDBAccordionItem,
+  MDBIcon,
 } from "mdb-react-ui-kit";
 
 interface ResultType {
@@ -26,6 +29,11 @@ interface AlgorithmType {
   a: number;
   b: number;
   k: number;
+  description: string;
+  python_code: string;
+  case?: string;
+  time_complexity?: string;
+  complexity_analysis?: string;
 }
 
 function App() {
@@ -36,6 +44,8 @@ function App() {
   const [showResult, setShowResult] = useState(false);
   const [algorithms, setAlgorithms] = useState<AlgorithmType[]>([]);
   const [inputsDisabled, setInputsDisabled] = useState(false);
+  const [selectedAlgorithmDetails, setSelectedAlgorithmDetails] =
+    useState<AlgorithmType | null>(null);
 
   // Fetch the list of algorithms on component mount
   useEffect(() => {
@@ -61,6 +71,7 @@ function App() {
       setA("");
       setB("");
       setK("");
+      setSelectedAlgorithmDetails(null);
     } else {
       setInputsDisabled(true); // An algorithm is selected
       const selectedAlgorithm = algorithms.find(
@@ -70,6 +81,7 @@ function App() {
         setA(selectedAlgorithm.a.toString());
         setB(selectedAlgorithm.b.toString());
         setK(selectedAlgorithm.k.toString());
+        setSelectedAlgorithmDetails(selectedAlgorithm);
       }
     }
   };
@@ -190,6 +202,38 @@ function App() {
               <strong>Evaluation: </strong> {result.case}
             </MDBCardText>
           </MDBCardBody>
+
+          {selectedAlgorithmDetails && (
+            <>
+              <h4>{selectedAlgorithmDetails.name} Algorithm</h4>
+              <MDBAccordion alwaysOpen initialActive={1}>
+                <MDBAccordionItem
+                  className="left-align"
+                  collapseId={1}
+                  headerTitle={
+                    <>
+                      <MDBIcon fas icon="question-circle" /> &nbsp; Algorithm
+                      Description
+                    </>
+                  }
+                >
+                  {selectedAlgorithmDetails.description}
+                </MDBAccordionItem>
+                <MDBAccordionItem
+                  collapseId={2}
+                  headerTitle={
+                    <>
+                      <MDBIcon fab icon="python" /> &nbsp; Python Code
+                    </>
+                  }
+                >
+                  <pre className="left-align">
+                    <code>{selectedAlgorithmDetails.python_code}</code>
+                  </pre>
+                </MDBAccordionItem>
+              </MDBAccordion>
+            </>
+          )}
         </MDBCard>
       )}
     </>
