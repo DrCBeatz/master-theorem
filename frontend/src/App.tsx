@@ -1,6 +1,6 @@
 // frontend/src/App.tsx
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import {
   MDBCard,
@@ -10,6 +10,8 @@ import {
   MDBCardHeader,
   MDBBtn,
   MDBInput,
+  MDBRadio,
+  MDBBtnGroup,
 } from "mdb-react-ui-kit";
 
 interface ResultType {
@@ -18,12 +20,59 @@ interface ResultType {
   plot_url: string;
 }
 
+interface AlgorithmType {
+  id: number;
+  name: string;
+  a: number;
+  b: number;
+  k: number;
+}
+
 function App() {
   const [a, setA] = useState("");
   const [b, setB] = useState("");
   const [k, setK] = useState("");
   const [result, setResult] = useState<ResultType | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const [algorithms, setAlgorithms] = useState<AlgorithmType[]>([]);
+  const [inputsDisabled, setInputsDisabled] = useState(false);
+
+  // Fetch the list of algorithms on component mount
+  useEffect(() => {
+    const fetchAlgorithms = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/algorithms");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setAlgorithms(data); // Store fetched algorithms
+      } catch (error) {
+        console.error("Failed to fetch algorithms:", error);
+      }
+    };
+    fetchAlgorithms();
+  }, []);
+
+  const handleAlgorithmChange = (algorithmId: number) => {
+    if (algorithmId === -1) {
+      // User input selected
+      setInputsDisabled(false);
+      setA("");
+      setB("");
+      setK("");
+    } else {
+      setInputsDisabled(true); // An algorithm is selected
+      const selectedAlgorithm = algorithms.find(
+        (alg) => alg.id === algorithmId
+      );
+      if (selectedAlgorithm) {
+        setA(selectedAlgorithm.a.toString());
+        setB(selectedAlgorithm.b.toString());
+        setK(selectedAlgorithm.k.toString());
+      }
+    }
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (event: React.MouseEvent<any>) => {
@@ -69,6 +118,7 @@ function App() {
             className="my-4"
             value={a}
             onChange={(e) => setA(e.target.value)}
+            disabled={inputsDisabled}
           />
           <MDBInput
             label="b (factor by which the problem size is reduced)"
@@ -78,6 +128,7 @@ function App() {
             className="my-4"
             value={b}
             onChange={(e) => setB(e.target.value)}
+            disabled={inputsDisabled}
           />
           <MDBInput
             label="k (exponent in the work done outside the recursive calls)"
@@ -87,7 +138,33 @@ function App() {
             className="my-4"
             value={k}
             onChange={(e) => setK(e.target.value)}
+            disabled={inputsDisabled}
           />
+
+          <MDBBtnGroup className="mt-3 mb-5">
+            <MDBRadio
+              btn
+              btnColor="secondary"
+              wrapperTag="span"
+              name="algorithmRadio"
+              id="algorithmRadioUserInput"
+              label="User input"
+              defaultChecked
+              onChange={() => handleAlgorithmChange(-1)}
+            />
+            {algorithms.map((algorithm, index) => (
+              <MDBRadio
+                key={algorithm.id}
+                btn
+                btnColor="secondary"
+                wrapperTag="span"
+                name="algorithmRadio"
+                id={`algorithmRadio${index + 2}`} // +2 to continue the id sequence
+                label={algorithm.name}
+                onChange={() => handleAlgorithmChange(algorithm.id)}
+              />
+            ))}
+          </MDBBtnGroup>
 
           <MDBBtn onClick={handleSubmit} className="btn-block">
             Evaluate
@@ -107,14 +184,10 @@ function App() {
               alt="Master Theorem Evaluation"
             />
             <MDBCardText>
-              <p>
-                <strong>Time Complexity: </strong> {result.complexity})
-              </p>
+              <strong>Time Complexity: </strong> {result.complexity})
             </MDBCardText>
             <MDBCardText>
-              <p>
-                <strong>Evaluation: </strong> {result.case}
-              </p>
+              <strong>Evaluation: </strong> {result.case}
             </MDBCardText>
           </MDBCardBody>
         </MDBCard>
