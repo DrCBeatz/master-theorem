@@ -25,10 +25,25 @@ class EvaluateMasterTheoremAPIView(APIView):
             b = serializer.validated_data['b']
             k = serializer.validated_data['k']
             complexity, case = evaluate_master_theorem(a, b, k)
+
+                        # Directory where plot images are saved
+            plots_directory = os.path.join(settings.BASE_DIR, 'static', 'plots')
+
+            # Delete all existing .png files in the directory
+            for filename in os.listdir(plots_directory):
+                if filename.endswith(".png"):
+                    file_path = os.path.join(plots_directory, filename)
+                    try:
+                        os.remove(file_path)
+                    except OSError as e:
+                        print(f"Error deleting file {filename}: {e.strerror}")
+            
             
             # Generate a unique filename for the plot image
             filename = f"plot_{get_random_string(8)}.png"
             plot_url = plot_master_theorem(a, b, k, filename)
+
+            
             
             # Construct the full URL to the plot image to return in the response
             plot_full_url = request.build_absolute_uri(f'/static/plots/{filename}')
