@@ -84,6 +84,35 @@ def plot_master_theorem(a: int, b: int, k: int, filename: str) -> str:
 
     return os.path.join('plots', filename)
 
+def calculate_plot_data(a: int, b: int, k: int) -> dict:
+    n = np.linspace(1, 100, 400)
+    log_b_a = np.log(a) / np.log(b)
+
+    # Element-wise exponentiation
+    n_log_b_a = n ** log_b_a
+
+    # Determine f(n) based on the case
+    if log_b_a > k:
+        f_n = (n ** k).tolist()  # Case 1
+    elif log_b_a == k:
+        f_n = (n ** k * np.log(n)).tolist()  # Case 2
+    else:
+        f_n = (np.ones_like(n) if k == 0 else n ** k).tolist()  # Case 3
+
+    # Calculate the actual time complexity based on the case
+    if log_b_a > k:
+        time_complexity = n_log_b_a.tolist()  # Case 1
+    elif log_b_a == k:
+        time_complexity = (n ** k * np.log(n)).tolist()  # Case 2
+    else:
+        time_complexity = f_n  # Case 3
+
+    return {
+        'n': n.tolist(),
+        'n_log_b_a': n_log_b_a.tolist(),
+        'f_n': f_n,
+        'time_complexity': time_complexity,
+    }
 
 def main() -> None:
     print("Enter the values for evaluating the Master Theorem:")
@@ -108,7 +137,7 @@ def main() -> None:
     print(f"\nRecurrence Relation: T(n) = {a}T(n/{b}) + n^{k}")
     print(f"Complexity: {complexity} ({case})")
 
-    plot_master_theorem(a, b, k)
+    plot_master_theorem(a, b, k, 'filename.png')
 
 
 if __name__ == '__main__':

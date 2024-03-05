@@ -1,6 +1,7 @@
 // frontend/src/App.tsx
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Chart from "chart.js/auto";
 import "./App.css";
 import {
   MDBCard,
@@ -20,7 +21,12 @@ import {
 interface ResultType {
   complexity: string;
   case: string;
-  plot_url: string;
+  plot_data: {
+    n: number[];
+    n_log_b_a: number[];
+    f_n: number[];
+    time_complexity: number[];
+  };
 }
 
 interface AlgorithmType {
@@ -46,6 +52,93 @@ function App() {
   const [inputsDisabled, setInputsDisabled] = useState(false);
   const [selectedAlgorithmDetails, setSelectedAlgorithmDetails] =
     useState<AlgorithmType | null>(null);
+
+  const chartRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (
+      showResult &&
+      result &&
+      result.plot_data &&
+      chartRef &&
+      chartRef.current
+    ) {
+      const ctx = chartRef.current.getContext("2d");
+      if (ctx) {
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: result.plot_data.n,
+            datasets: [
+              {
+                label: "n^log_b(a)",
+                data: result.plot_data.n_log_b_a,
+                borderColor: "blue",
+                borderWidth: 1,
+                fill: false,
+              },
+              {
+                label: "f(n)",
+                data: result.plot_data.f_n,
+                borderColor: "red",
+                borderWidth: 1,
+                fill: false,
+              },
+              {
+                label: "Time Complexity",
+                data: result.plot_data.time_complexity,
+                borderColor: "green",
+                borderWidth: 1,
+                fill: false,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+
+                ticks: {},
+              },
+              x: {
+                grid: {
+                  display: true,
+                },
+                ticks: {
+                  callback: function (value) {
+                    return Number(value).toFixed(0); // Rounds the value to the nearest whole number
+                  },
+                },
+              },
+            },
+            plugins: {
+              legend: {
+                display: true,
+                position: "top", // Position of the legend
+                labels: {
+                  boxWidth: 20, // Width of the legend color box
+                  padding: 10, // Padding between legend items
+                },
+              },
+              tooltip: {
+                enabled: true,
+              },
+            },
+            elements: {
+              line: {
+                borderWidth: 1, // Set line thickness
+              },
+              point: {
+                radius: 0, // Hide points on the line
+              },
+            },
+            responsive: true,
+            maintainAspectRatio: true,
+          },
+        });
+      }
+    }
+  }, [showResult, result]);
 
   // Fetch the list of algorithms on component mount
   useEffect(() => {
@@ -190,11 +283,14 @@ function App() {
             <h2>Evaluation</h2>
           </MDBCardHeader>
           <MDBCardBody>
-            <img
-              src={result.plot_url}
-              className="img-fluid"
-              alt="Master Theorem Evaluation"
-            />
+            <canvas
+              ref={chartRef}
+              id="myChart"
+              width="400"
+              height="400"
+              className="mb-3"
+            ></canvas>
+
             <MDBCardText>
               <strong>Time Complexity: </strong> {result.complexity})
             </MDBCardText>

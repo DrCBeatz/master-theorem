@@ -12,7 +12,7 @@ def test_evaluate_master_theorem_api_view_success():
     assert response.status_code == 200
     assert 'complexity' in response.data
     assert 'case' in response.data
-    assert 'plot_url' in response.data
+    assert 'plot_data' in response.data
 
 @pytest.mark.django_db
 def test_evaluate_master_theorem_api_view_failure():
