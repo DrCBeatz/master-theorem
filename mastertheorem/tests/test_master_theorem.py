@@ -62,7 +62,7 @@ def test_calculate_plot_data_length(a, b, k):
 
 @pytest.mark.parametrize("a,b,k,expected_first_value_of_fn,expected_first_value_of_n_log_b_a", [
     (2, 2, 0, 1, 1),  # f(n) should start at 1 for k=0, and n_log_b_a should start at 1 when n=1.
-    (2, 2, 1, 0, 1),  # f(n) should start at 0 for k=1 (because it includes log(n)), and n_log_b_a should start at 1 when n=1.
+    (2, 2, 1, 1, 1),  # f(n) should start at 1 for k=1, and n_log_b_a should start at 1 when n=1.
     (9, 2, 0, 1, 1),  # f(n) should start at 1 for k=0, and n_log_b_a should start at 1 when n=1.
 ])
 def test_calculate_plot_data_values(a, b, k, expected_first_value_of_fn, expected_first_value_of_n_log_b_a):

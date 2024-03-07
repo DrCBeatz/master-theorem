@@ -88,22 +88,24 @@ def calculate_plot_data(a: int, b: int, k: int) -> dict:
     n = np.linspace(1, 100, 400)
     log_b_a = np.log(a) / np.log(b)
 
-    # Element-wise exponentiation
+    # Element-wise exponentiation for n^log_b(a)
     n_log_b_a = n ** log_b_a
 
-    # Determine f(n) based on the case
+    # Adjust f(n) based on the case
     if log_b_a > k:
         f_n = (n ** k).tolist()  # Case 1
     elif log_b_a == k:
-        f_n = (n ** k * np.log(n)).tolist()  # Case 2
+        # Since k = log_b(a) for Case 2, adjust f(n) to reflect n^k for comparison purposes
+        f_n = (n ** k).tolist()  # f(n) = n^k for visual comparison
     else:
         f_n = (np.ones_like(n) if k == 0 else n ** k).tolist()  # Case 3
 
-    # Calculate the actual time complexity based on the case
+    # Adjust time complexity calculation to match the Master Theorem's conclusions accurately
     if log_b_a > k:
         time_complexity = n_log_b_a.tolist()  # Case 1
     elif log_b_a == k:
-        time_complexity = (n ** k * np.log(n)).tolist()  # Case 2
+        # For Case 2, adjust time complexity to reflect n^log_b(a) * log n
+        time_complexity = (n ** log_b_a * np.log(n)).tolist()
     else:
         time_complexity = f_n  # Case 3
 
