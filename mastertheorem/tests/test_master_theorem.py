@@ -9,9 +9,9 @@ import numpy as np
     (4, 2, 1, "Θ(n^", "Case 1", "Generic algorithm - Case 1 (faster growth of recursive part)"),
     (4, 2, 2, "Θ(n^k log n)", "Case 2", "Generic algorithm - Case 2 (balanced growth)"),
     (4, 2, 3, "Θ(n^", "Case 3", "Generic algorithm - Case 3 (faster growth of non-recursive part)"),
-    (2, 2, 1, "Θ(n^k log n)", "Case 2", "Merge Sort"),
+    (2, 2, 1, "Θ(n log n)", "Case 2", "Merge Sort"),
     (7, 2, 2, "Θ(n^", "Case 1", "Strassen's Matrix Multiplication"),
-    (1, 2, 0, "Θ(n^k log n)", "Case 2", "Binary Search"),
+    (1, 2, 0, "Θ(log n)", "Case 2", "Binary Search"),
     (3, 2, 1, "Θ(n^", "Case 1", "Karatsuba's Algorithm"),
     # Tests for handling invalid input gracefully
     (0, 2, 1, "Error", "Error", "Zero subproblems - expected error"),

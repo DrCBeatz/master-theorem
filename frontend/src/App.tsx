@@ -294,7 +294,7 @@ function App() {
             ></canvas>
 
             <MDBCardText>
-              <strong>Time Complexity: </strong> {result.complexity})
+              <strong>Time Complexity: </strong> {result.complexity}
             </MDBCardText>
             <MDBCardText>
               <strong>Evaluation: </strong> {result.case}
