@@ -292,12 +292,16 @@ function App() {
               height="400"
               className="mb-3"
             ></canvas>
+            <MDBCardText>
+              <strong>Evaluation: </strong>
+              <span dangerouslySetInnerHTML={{ __html: result.case }}></span>
+            </MDBCardText>
 
             <MDBCardText>
-              <strong>Time Complexity: </strong> {result.complexity}
-            </MDBCardText>
-            <MDBCardText>
-              <strong>Evaluation: </strong> {result.case}
+              <strong>Time Complexity: </strong>
+              <span
+                dangerouslySetInnerHTML={{ __html: result.complexity }}
+              ></span>
             </MDBCardText>
           </MDBCardBody>
 
