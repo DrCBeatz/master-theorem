@@ -4,15 +4,19 @@ import pytest
 from mastertheorem.master_theorem import evaluate_master_theorem, calculate_plot_data
 import numpy as np
 
+CASE_1 = f"Case 1: Θ(n<sup>log<sub>b</sub> a</sup>)"
+CASE_2 = f"Case 2: Θ(n<sup>k</sup> log n)"
+CASE_3 = f"Case 3: Θ(n<sup>k</sup>)"
+
 @pytest.mark.parametrize("a,b,k,expected_start,expected_case,description", [
     # Valid test cases, ensuring all parameters are integers
-    (4, 2, 1, "Θ(n^", "Case 1", "Generic algorithm - Case 1 (faster growth of recursive part)"),
-    (4, 2, 2, "Θ(n^k log n)", "Case 2", "Generic algorithm - Case 2 (balanced growth)"),
-    (4, 2, 3, "Θ(n^", "Case 3", "Generic algorithm - Case 3 (faster growth of non-recursive part)"),
-    (2, 2, 1, "Θ(n log n)", "Case 2", "Merge Sort"),
-    (7, 2, 2, "Θ(n^", "Case 1", "Strassen's Matrix Multiplication"),
-    (1, 2, 0, "Θ(log n)", "Case 2", "Binary Search"),
-    (3, 2, 1, "Θ(n^", "Case 1", "Karatsuba's Algorithm"),
+    (4, 2, 1, "Θ(n<sup>2</sup>)", CASE_1, "Generic algorithm - Case 1 (faster growth of recursive part)"),
+    (4, 2, 2, "Θ(n<sup>2</sup> log n)", CASE_2, "Generic algorithm - Case 2 (balanced growth)"),
+    (4, 2, 3, "Θ(n<sup>3</sup>)", CASE_3, "Generic algorithm - Case 3 (faster growth of non-recursive part)"),
+    (2, 2, 1, "Θ(n log n)", CASE_2, "Merge Sort"),
+    (7, 2, 2, "Θ(n<sup>log<sub>2</sub>7</sup>)", CASE_1, "Strassen's Matrix Multiplication"),
+    (1, 2, 0, "Θ(log n)", CASE_2, "Binary Search"),
+    (3, 2, 1, "Θ(n<sup>log<sub>2</sub>3</sup>)", CASE_1, "Karatsuba's Algorithm"),
     # Tests for handling invalid input gracefully
     (0, 2, 1, "Error", "Error", "Zero subproblems - expected error"),
     (2, 1, 1, "Error", "Error", "Division by 1 - expected error"),

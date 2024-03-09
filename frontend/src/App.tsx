@@ -182,6 +182,12 @@ function App() {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmitForm = async (event: React.MouseEvent<any>) => {
+    event.preventDefault();
+    await handleSubmit(event);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (event: React.MouseEvent<any>) => {
     event.preventDefault(); // Prevent default form submission behavior
     setShowResult(false);
@@ -217,65 +223,67 @@ function App() {
           <MDBCardTitle>
             Enter the values of a, b, and k to evaluate the Master Theorem
           </MDBCardTitle>
-          <MDBInput
-            label="a (number of subproblems)"
-            id="aInput"
-            type="number"
-            min="1"
-            className="my-4"
-            value={a}
-            onChange={(e) => setA(e.target.value)}
-            disabled={inputsDisabled}
-          />
-          <MDBInput
-            label="b (factor by which the problem size is reduced)"
-            id="bInput"
-            type="number"
-            min="2"
-            className="my-4"
-            value={b}
-            onChange={(e) => setB(e.target.value)}
-            disabled={inputsDisabled}
-          />
-          <MDBInput
-            label="k (exponent in the work done outside the recursive calls)"
-            id="kInput"
-            type="number"
-            min="0"
-            className="my-4"
-            value={k}
-            onChange={(e) => setK(e.target.value)}
-            disabled={inputsDisabled}
-          />
-
-          <MDBBtnGroup className="mt-3 mb-5">
-            <MDBRadio
-              btn
-              btnColor="secondary"
-              wrapperTag="span"
-              name="algorithmRadio"
-              id="algorithmRadioUserInput"
-              label="User input"
-              defaultChecked
-              onChange={() => handleAlgorithmChange(-1)}
+          <form onSubmit={handleSubmitForm}>
+            <MDBInput
+              label="a (number of subproblems)"
+              id="aInput"
+              type="number"
+              min="1"
+              className="my-4"
+              value={a}
+              onChange={(e) => setA(e.target.value)}
+              disabled={inputsDisabled}
             />
-            {algorithms.map((algorithm, index) => (
+            <MDBInput
+              label="b (factor by which the problem size is reduced)"
+              id="bInput"
+              type="number"
+              min="2"
+              className="my-4"
+              value={b}
+              onChange={(e) => setB(e.target.value)}
+              disabled={inputsDisabled}
+            />
+            <MDBInput
+              label="k (exponent in the work done outside the recursive calls)"
+              id="kInput"
+              type="number"
+              min="0"
+              className="my-4"
+              value={k}
+              onChange={(e) => setK(e.target.value)}
+              disabled={inputsDisabled}
+            />
+
+            <MDBBtnGroup className="mt-3 mb-5">
               <MDBRadio
-                key={algorithm.id}
                 btn
                 btnColor="secondary"
                 wrapperTag="span"
                 name="algorithmRadio"
-                id={`algorithmRadio${index + 2}`} // +2 to continue the id sequence
-                label={algorithm.name}
-                onChange={() => handleAlgorithmChange(algorithm.id)}
+                id="algorithmRadioUserInput"
+                label="User input"
+                defaultChecked
+                onChange={() => handleAlgorithmChange(-1)}
               />
-            ))}
-          </MDBBtnGroup>
+              {algorithms.map((algorithm, index) => (
+                <MDBRadio
+                  key={algorithm.id}
+                  btn
+                  btnColor="secondary"
+                  wrapperTag="span"
+                  name="algorithmRadio"
+                  id={`algorithmRadio${index + 2}`} // +2 to continue the id sequence
+                  label={algorithm.name}
+                  onChange={() => handleAlgorithmChange(algorithm.id)}
+                />
+              ))}
+            </MDBBtnGroup>
 
-          <MDBBtn onClick={handleSubmit} className="btn-block">
-            Evaluate
-          </MDBBtn>
+            <MDBBtn onClick={handleSubmit} className="btn-block">
+              Evaluate
+            </MDBBtn>
+          </form>
         </MDBCardBody>
       </MDBCard>
 

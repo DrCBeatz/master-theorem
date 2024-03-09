@@ -7,7 +7,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 from typing import Tuple
 
+
+
 def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str]:
+    # Define the 3 cases for the Master Theorem
+    case1 = f"Case 1: Θ(n<sup>log<sub>b</sub> a</sup>)"
+    case2 = f"Case 2: Θ(n<sup>k</sup> log n)"
+    case3 = f"Case 3: Θ(n<sup>k</sup>)"
+    
     # Ensure all parameters are integers and meet specific constraints
     if not all(isinstance(param, int) for param in [a, b, k]):
         raise ValueError("All parameters (a, b, k) must be integers.")
@@ -20,22 +27,25 @@ def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str]:
 
     if a == 1 and b == 2 and k == 0:
         complexity = "Θ(log n)"
-        case = "Case 2"
+        case = case2
     elif a == 2 and b == 2 and k == 1:
         complexity = "Θ(n log n)"
-        case = "Case 2"
+        case = case2
+    elif a == 4 and b == 2 and k == 1:
+        complexity = f"Θ(n<sup>2</sup>)"
+        case = case1
     else:
         log_b_a = log(a, b)
         
         if log_b_a > k:
-            complexity = f"Θ(n^{log_b_a})" if isinstance(log_b_a, int) else f"Θ(n^{log_b_a:.2f})"
-            case = "Case 1"
+            complexity = f"Θ(n<sup>log<sub>{b}</sub>{a}</sup>)"
+            case = case1
         elif log_b_a == k:
-            complexity = "Θ(n^k log n)"
-            case = "Case 2"
+            complexity = f"Θ(n<sup>{k}</sup> log n)"
+            case = case2
         else:
-            complexity = f"Θ(n^{k})"
-            case = "Case 3"
+            complexity = f"Θ(n<sup>{k}</sup>)"
+            case = case3
         
     return complexity, case
 
