@@ -8,23 +8,24 @@ CASE_1 = f"Case 1: Θ(n<sup>log<sub>b</sub>(a)</sup>)"
 CASE_2 = f"Case 2: Θ(n<sup>k</sup> log n)"
 CASE_3 = f"Case 3: Θ(n<sup>k</sup>)"
 
-@pytest.mark.parametrize("a,b,k,expected_start,expected_case,description", [
+@pytest.mark.parametrize("a,b,k,expected_start,expected_case,description,expected_error_message", [
     # Valid test cases, ensuring all parameters are integers
-    (4, 2, 1, "Θ(n<sup>2</sup>)", CASE_1, "Generic algorithm - Case 1 (faster growth of recursive part)"),
-    (4, 2, 2, "Θ(n<sup>2</sup> log n)", CASE_2, "Generic algorithm - Case 2 (balanced growth)"),
-    (4, 2, 3, "Θ(n<sup>3</sup>)", CASE_3, "Generic algorithm - Case 3 (faster growth of non-recursive part)"),
-    (2, 2, 1, "Θ(n log n)", CASE_2, "Merge Sort"),
-    (7, 2, 2, "Θ(n<sup>log<sub>2</sub>(7)</sup>)", CASE_1, "Strassen's Matrix Multiplication"),
-    (1, 2, 0, "Θ(log n)", CASE_2, "Binary Search"),
-    (3, 2, 1, "Θ(n<sup>log<sub>2</sub>(3)</sup>)", CASE_1, "Karatsuba's Algorithm"),
+    (4, 2, 1, "Θ(n<sup>2</sup>)", CASE_1, "Generic algorithm - Case 1 (faster growth of recursive part)", None),
+    (4, 2, 2, "Θ(n<sup>2</sup> log n)", CASE_2, "Generic algorithm - Case 2 (balanced growth)", None),
+    (4, 2, 3, "Θ(n<sup>3</sup>)", CASE_3, "Generic algorithm - Case 3 (faster growth of non-recursive part)", None),
+    (2, 2, 1, "Θ(n log n)", CASE_2, "Merge Sort", None),
+    (7, 2, 2, "Θ(n<sup>log<sub>2</sub>(7)</sup>)", CASE_1, "Strassen's Matrix Multiplication", None),
+    (1, 2, 0, "Θ(log n)", CASE_2, "Binary Search", None),
+    (3, 2, 1, "Θ(n<sup>log<sub>2</sub>(3)</sup>)", CASE_1, "Karatsuba's Algorithm", None),
     # Tests for handling invalid input gracefully
-    (0, 2, 1, "Error", "Error", "Zero subproblems - expected error"),
-    (2, 1, 1, "Error", "Error", "Division by 1 - expected error"),
-    (-1, 2, 1, "Error", "Error", "Negative subproblems - expected error"),
+    (0, 2, 1, "Error", "Error", "Zero subproblems - expected error", "Parameter 'a' must be greater than 0."),
+    (2, 1, 1, "Error", "Error", "Division by 1 - expected error", "Parameter 'b' must be greater than 1 to ensure the problem size is reduced."),
+    (-1, 2, 1, "Error", "Error", "Negative subproblems - expected error", "Parameter 'a' must be greater than 0."),
+
 ])
-def test_master_theorem_cases(a: int, b: int, k: int, expected_start: str, expected_case: str, description: str) -> None:
+def test_master_theorem_cases(a: int, b: int, k: int, expected_start: str, expected_case: str, description: str, expected_error_message: str) -> None:
     if expected_case == "Error":
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match=expected_error_message):
             evaluate_master_theorem(a, b, k)
     else:
         complexity, case, recurrence_relation = evaluate_master_theorem(a, b, k)

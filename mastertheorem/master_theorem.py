@@ -12,6 +12,8 @@ CASE_2 = f"Case 2: Θ(n<sup>k</sup> log n)"
 CASE_3 = f"Case 3: Θ(n<sup>k</sup>)"
 
 def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str, str]:
+    if a<= 0:
+        raise ValueError("Parameter 'a' must be greater than 0.")
     if b <= 1:
         raise ValueError("Parameter 'b' must be greater than 1 to ensure the problem size is reduced.")
     
