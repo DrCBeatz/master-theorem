@@ -27,7 +27,7 @@ def test_master_theorem_cases(a: int, b: int, k: int, expected_start: str, expec
         with pytest.raises(ValueError):
             evaluate_master_theorem(a, b, k)
     else:
-        complexity, case = evaluate_master_theorem(a, b, k)
+        complexity, case, recurrence_relation = evaluate_master_theorem(a, b, k)
         assert complexity.startswith(expected_start) and case == expected_case, f"Failed for {description}: {complexity}, {case}"
 
 @pytest.mark.parametrize("a,b,k,expected_keys", [
@@ -91,3 +91,16 @@ def test_calculate_plot_data_monotonicity(a, b, k):
     # Test that the lists are monotonically increasing where expected
     assert all(x <= y for x, y in zip(plot_data['n'], plot_data['n'][1:])), "'n' should be monotonically increasing."
     assert all(x <= y for x, y in zip(plot_data['time_complexity'], plot_data['time_complexity'][1:])), "'time_complexity' should be monotonically increasing."
+
+@pytest.mark.parametrize("a,b,k,expected_recurrence_relation", [
+    (1, 2, 0, "T(n) = 1T(n/2) + f(n<sup>0</sup>)"),
+    (2, 2, 1, "T(n) = 2T(n/2) + f(n<sup>1</sup>)"),
+    (7, 2, 2, "T(n) = 7T(n/2) + f(n<sup>2</sup>)"),
+    (3, 2, 1, "T(n) = 3T(n/2) + f(n<sup>1</sup>)"),
+    (4, 2, 1, "T(n) = 4T(n/2) + f(n<sup>1</sup>)"),
+    (4, 2, 2, "T(n) = 4T(n/2) + f(n<sup>2</sup>)"),
+    (4, 2, 3, "T(n) = 4T(n/2) + f(n<sup>3</sup>)"),
+])
+def test_recurrence_relation_output(a: int, b: int, k: int, expected_recurrence_relation: str):
+       _, _, recurrence_relation = evaluate_master_theorem(a, b, k) 
+       assert recurrence_relation == expected_recurrence_relation, f"Recurrence relation does not expected output for parameters a={a}, b={b}, k={k}"

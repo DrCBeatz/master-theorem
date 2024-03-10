@@ -21,6 +21,7 @@ import {
 interface ResultType {
   complexity: string;
   case: string;
+  recurrence_relation: string;
   plot_data: {
     n: number[];
     n_log_b_a: number[];
@@ -300,6 +301,13 @@ function App() {
               height="400"
               className="mb-3"
             ></canvas>
+
+            <MDBCardText>
+              <strong>Recurrence Relation: </strong>
+              <span
+                dangerouslySetInnerHTML={{ __html: result.recurrence_relation }}
+              ></span>
+            </MDBCardText>
             <MDBCardText>
               <strong>Evaluation: </strong>
               <span dangerouslySetInnerHTML={{ __html: result.case }}></span>

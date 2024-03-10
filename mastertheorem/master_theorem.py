@@ -9,12 +9,14 @@ from typing import Tuple
 
 
 
-def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str]:
+def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str, str]:
     # Define the 3 cases for the Master Theorem
     case1 = f"Case 1: Θ(n<sup>log<sub>b</sub> a</sup>)"
     case2 = f"Case 2: Θ(n<sup>k</sup> log n)"
     case3 = f"Case 3: Θ(n<sup>k</sup>)"
     
+    recurrence_relation = f"T(n) = {a}T(n/{b}) + f(n<sup>{k}</sup>)"
+
     # Ensure all parameters are integers and meet specific constraints
     if not all(isinstance(param, int) for param in [a, b, k]):
         raise ValueError("All parameters (a, b, k) must be integers.")
@@ -47,7 +49,7 @@ def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str]:
             complexity = f"Θ(n<sup>{k}</sup>)"
             case = case3
         
-    return complexity, case
+    return complexity, case, recurrence_relation
 
 
 def plot_master_theorem(a: int, b: int, k: int, filename: str) -> str:
@@ -152,8 +154,8 @@ def main() -> None:
     k = int(k_input)
 
     # Proceed with the evaluation and plotting
-    complexity, case = evaluate_master_theorem(a, b, k)
-    print(f"\nRecurrence Relation: T(n) = {a}T(n/{b}) + n^{k}")
+    complexity, case, recurrence_relation = evaluate_master_theorem(a, b, k)
+    print(f"\nRecurrence Relation: {recurrence_relation}")
     print(f"Complexity: {complexity} ({case})")
 
     plot_master_theorem(a, b, k, 'filename.png')
