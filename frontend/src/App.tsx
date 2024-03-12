@@ -53,6 +53,8 @@ function App() {
   const [inputsDisabled, setInputsDisabled] = useState(false);
   const [selectedAlgorithmDetails, setSelectedAlgorithmDetails] =
     useState<AlgorithmType | null>(null);
+  const [tempSelectedAlgorithmDetails, setTempSelectedAlgorithmDetails] =
+    useState<AlgorithmType | null>(null);
 
   const chartRef = useRef<HTMLCanvasElement>(null);
 
@@ -167,7 +169,8 @@ function App() {
       setA("");
       setB("");
       setK("");
-      setSelectedAlgorithmDetails(null);
+
+      setTempSelectedAlgorithmDetails(null);
     } else {
       setInputsDisabled(true); // An algorithm is selected
       const selectedAlgorithm = algorithms.find(
@@ -177,7 +180,7 @@ function App() {
         setA(selectedAlgorithm.a.toString());
         setB(selectedAlgorithm.b.toString());
         setK(selectedAlgorithm.k.toString());
-        setSelectedAlgorithmDetails(selectedAlgorithm);
+        setTempSelectedAlgorithmDetails(selectedAlgorithm);
       }
     }
   };
@@ -192,6 +195,8 @@ function App() {
   const handleSubmit = async (event: React.MouseEvent<any>) => {
     event.preventDefault(); // Prevent default form submission behavior
     setShowResult(false);
+
+    setSelectedAlgorithmDetails(tempSelectedAlgorithmDetails);
 
     try {
       const response = await fetch("http://localhost:8000/api/evaluate/", {
