@@ -5,15 +5,13 @@ services:
   web:
     build: .
     environment:
-      DJANGO_DEBUG: "True"
-      DJANGO_SECURE_SSL_REDIRECT: "False"
-      DJANGO_SECURE_HSTS_SECONDS: "0"
-      DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS: "False"
-      DJANGO_SECURE_HSTS_PRELOAD: "False"
-      DJANGO_SESSION_COOKIE_SECURE: "False"
-      DJANGO_CSRF_COOKIE_SECURE: "False"
-      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-      DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      - DJANGO_DEBUG=True
+      - DJANGO_SECURE_SSL_REDIRECT=False
+      - DJANGO_SECURE_HSTS_SECONDS=0
+      - DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False
+      - DJANGO_SECURE_HSTS_PRELOAD=False
+      - DJANGO_SESSION_COOKIE_SECURE=False
+      - DJANGO_CSRF_COOKIE_SECURE=False
     command: gunicorn core.wsgi -b 0.0.0.0:8000
     volumes:
       - .:/code
@@ -21,14 +19,16 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    env_file:
+      - .env
   db:
     image: postgres:13
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - POSTGRES_HOST
 volumes:
   postgres_data:
