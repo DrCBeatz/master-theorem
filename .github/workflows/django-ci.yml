@@ -10,6 +10,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+      SECURE_SSL_REDIRECT: False
+      SESSION_COOKIE_SECURE: False
+      CSRF_COOKIE_SECURE: False
+      SECURE_HSTS_SECONDS: 0
+      SECURE_HSTS_INCLUDE_SUBDOMAINS: False
+      SECURE_HSTS_PRELOAD: False
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: db
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
 
     services:
       postgres:
