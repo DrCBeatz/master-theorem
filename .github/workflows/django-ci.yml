@@ -50,6 +50,6 @@ jobs:
       - name: Run tests
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
-          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          DJANGO_SECRET_KEY: jx(hyq(0^9x)chdk#a)s#dy+n385l6!qc6lcs_s+^k8=s--tdd
           DJANGO_DEBUG: "True"
         run: pytest
