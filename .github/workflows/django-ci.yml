@@ -30,19 +30,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Start Docker containers using docker-compose
+      # Define environment variables for the build
+      - name: Setup environment variables
+        run: |
+          echo "POSTGRES_USER=postgres" >> $GITHUB_ENV
+          echo "POSTGRES_PASSWORD=postgres" >> $GITHUB_ENV
+          echo "POSTGRES_DB=test_db" >> $GITHUB_ENV
+          echo "POSTGRES_HOST=localhost" >> $GITHUB_ENV
+          echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/test_db" >> $GITHUB_ENV
+
+        # Start Docker containers using docker-compose
       - name: Build and start containers
         run: |
           docker-compose up -d --build
 
-      # Run migrations. The `-T` option disables pseudo-TTY allocation, which is not supported on GitHub Actions.
+        # Run migrations. The `-T` option disables pseudo-TTY allocation, which is not supported on GitHub Actions.
       - name: Apply migrations
         run: docker-compose exec -T web python manage.py migrate
 
-      # Run tests. Similarly, `-T` is used here.
+        # Run tests. Similarly, `-T` is used here.
       - name: Run tests
         run: docker-compose exec -T web pytest
 
-      # Clean up Docker containers
+        # Clean up Docker containers
       - name: Shutdown
         run: docker-compose down
