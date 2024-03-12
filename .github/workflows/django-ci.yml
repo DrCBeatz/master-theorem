@@ -36,9 +36,9 @@ jobs:
           echo "POSTGRES_USER=postgres" >> $GITHUB_ENV
           echo "POSTGRES_PASSWORD=postgres" >> $GITHUB_ENV
           echo "POSTGRES_DB=test_db" >> $GITHUB_ENV
-          echo "POSTGRES_HOST=localhost" >> $GITHUB_ENV
+          echo "POSTGRES_HOST=db" >> $GITHUB_ENV
           echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> $GITHUB_ENV
-          echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/test_db" >> $GITHUB_ENV
+          echo "DATABASE_URL=postgres://postgres:postgres@db:5432/test_db" >> $GITHUB_ENV
 
         # Start Docker containers using docker-compose
       - name: Build and start containers
