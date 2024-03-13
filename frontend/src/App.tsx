@@ -12,7 +12,6 @@ import {
   MDBBtn,
   MDBInput,
   MDBRadio,
-  MDBBtnGroup,
   MDBAccordion,
   MDBAccordionItem,
   MDBIcon,
@@ -102,7 +101,14 @@ function App() {
             scales: {
               y: {
                 beginAtZero: true,
-
+                title: {
+                  display: true,
+                  text: "Function Value", // Y-axis label
+                  color: "#888",
+                  font: {
+                    size: 12,
+                  },
+                },
                 ticks: {},
               },
               x: {
@@ -112,6 +118,14 @@ function App() {
                 ticks: {
                   callback: function (value) {
                     return Number(value).toFixed(0); // Rounds the value to the nearest whole number
+                  },
+                },
+                title: {
+                  display: true,
+                  text: "Input Size (n)", // X-axis label
+                  color: "#888",
+                  font: {
+                    size: 12,
                   },
                 },
               },
@@ -227,7 +241,7 @@ function App() {
         </MDBCardHeader>
         <MDBCardBody>
           <MDBCardTitle>
-            Enter the values of a, b, and k to evaluate the Master Theorem
+            Enter the values of a, b, and k to evaluate the Master Theorem:
           </MDBCardTitle>
           <form onSubmit={handleSubmitForm}>
             <MDBInput
@@ -241,7 +255,7 @@ function App() {
               disabled={inputsDisabled}
             />
             <MDBInput
-              label="b (factor by which the problem size is reduced)"
+              label="b (factor by which problem size is reduced)"
               id="bInput"
               type="number"
               min="2"
@@ -251,7 +265,7 @@ function App() {
               disabled={inputsDisabled}
             />
             <MDBInput
-              label="k (exponent in the work done outside the recursive calls)"
+              label="k (exponent in the work outside of recursive calls)"
               id="kInput"
               type="number"
               min="0"
@@ -260,31 +274,34 @@ function App() {
               onChange={(e) => setK(e.target.value)}
               disabled={inputsDisabled}
             />
+            <h5>Preset Algorithms:</h5>
 
-            <MDBBtnGroup className="mt-3 mb-5">
-              <MDBRadio
-                btn
-                btnColor="secondary"
-                wrapperTag="span"
-                name="algorithmRadio"
-                id="algorithmRadioUserInput"
-                label="User input"
-                defaultChecked
-                onChange={() => handleAlgorithmChange(-1)}
-              />
-              {algorithms.map((algorithm, index) => (
+            <div className="mb-3 mt-3 d-flex flex-wrap flex-md-nowrap justify-content-center">
+              <div className="my-1 mx-1">
                 <MDBRadio
-                  key={algorithm.id}
                   btn
                   btnColor="secondary"
-                  wrapperTag="span"
                   name="algorithmRadio"
-                  id={`algorithmRadio${index + 2}`} // +2 to continue the id sequence
-                  label={algorithm.name}
-                  onChange={() => handleAlgorithmChange(algorithm.id)}
+                  id="algorithmRadioUserInput"
+                  label="User input"
+                  defaultChecked
+                  onChange={() => handleAlgorithmChange(-1)}
                 />
+              </div>
+              {algorithms.map((algorithm, index) => (
+                <div className="my-1 mx-1">
+                  <MDBRadio
+                    btn
+                    btnColor="secondary"
+                    key={algorithm.id}
+                    name="algorithmRadio"
+                    id={`algorithmRadio${index + 2}`} // +2 to continue the id sequence
+                    label={algorithm.name}
+                    onChange={() => handleAlgorithmChange(algorithm.id)}
+                  />
+                </div>
               ))}
-            </MDBBtnGroup>
+            </div>
 
             <MDBBtn onClick={handleSubmit} className="btn-block">
               Evaluate
@@ -302,8 +319,8 @@ function App() {
             <canvas
               ref={chartRef}
               id="myChart"
-              width="400"
-              height="400"
+              // width="400"
+              // height="400"
               className="mb-3"
             ></canvas>
 
