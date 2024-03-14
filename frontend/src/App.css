@@ -1,7 +1,9 @@
+/* frontend/src/App.css */
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
 }
 
@@ -15,5 +17,49 @@
 
 #myChart {
   max-width: 100%;
-  height: auto;
+  max-height: 50vh;
+}
+
+.evaluation-card-body {
+  font-size: 1rem;
+}
+
+pre {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: pre-wrap; /* Optional: if you want to wrap text */
+  white-space: -moz-pre-wrap; /* Optional: if you want to wrap text */
+  white-space: -pre-wrap; /* Optional: if you want to wrap text */
+  white-space: -o-pre-wrap; /* Optional: if you want to wrap text */
+  word-wrap: break-word; /* Optional: if you want to wrap text */
+}
+
+@media (max-width: 768px) {
+  .main-header {
+    font-size: 2rem;
+  }
+  .card {
+    padding: 0.75em;
+  }
+
+  h2,
+  .MDBCardTitle,
+  .MDBCardHeader {
+    font-size: 1.5rem;
+  }
+
+  #myChart {
+    max-height: 40vh;
+  }
+
+  .evaluation-card-body {
+    font-size: 0.8rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+
+  pre {
+    font-size: calc(12px + (14 - 12) * ((100vw - 300px) / (700 - 300)));
+  }
 }

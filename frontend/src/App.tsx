@@ -152,7 +152,7 @@ function App() {
               },
             },
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
           },
         });
       }
@@ -237,11 +237,13 @@ function App() {
     <>
       <MDBCard alignment="center">
         <MDBCardHeader>
-          <h1>Evaluate Master Theorem</h1>
+          <h1 className="main-header">Evaluate Master Theorem</h1>
         </MDBCardHeader>
         <MDBCardBody>
           <MDBCardTitle>
-            Enter the values of a, b, and k to evaluate the Master Theorem:
+            <span className="card-title">
+              Enter the values of a, b, and k to evaluate the Master Theorem:
+            </span>
           </MDBCardTitle>
           <form onSubmit={handleSubmitForm}>
             <MDBInput
@@ -274,7 +276,7 @@ function App() {
               onChange={(e) => setK(e.target.value)}
               disabled={inputsDisabled}
             />
-            <h5>Preset Algorithms:</h5>
+            <h5 className="card-title">Preset Algorithms:</h5>
 
             <div className="mb-3 mt-3 d-flex flex-wrap flex-md-nowrap justify-content-center">
               <div className="my-1 mx-1">
@@ -311,18 +313,12 @@ function App() {
       </MDBCard>
 
       {showResult && result && (
-        <MDBCard className="my-5">
+        <MDBCard className="my-4">
           <MDBCardHeader>
             <h2>Evaluation</h2>
           </MDBCardHeader>
-          <MDBCardBody>
-            <canvas
-              ref={chartRef}
-              id="myChart"
-              // width="400"
-              // height="400"
-              className="mb-3"
-            ></canvas>
+          <MDBCardBody className="evaluation-card-body">
+            <canvas ref={chartRef} id="myChart" className="mb-3"></canvas>
 
             <MDBCardText>
               <strong>Recurrence Relation: </strong>
@@ -418,7 +414,7 @@ function App() {
           <MDBAccordionItem
             className="left-align"
             collapseId={2}
-            headerTitle="Decoding the Recurrence Relation: T(n) = aT(n/b) + f(n)"
+            headerTitle="Decoding the Master Recurrence"
           >
             <p>
               The Master Theorem can only be used to evaluate recursive
@@ -428,8 +424,9 @@ function App() {
               <strong>T(n) = aT(n/b) + f(n)</strong>
             </p>
             <p>
-              This equation is the heart of the Master Theorem. It captures the
-              essence of divide and conquer algorithms:
+              This equation is the heart of the Master Theorem. and is called
+              the <strong>Master Recurrence</strong>. It captures the essence of
+              divide and conquer algorithms:
             </p>
             <ul>
               <li>
