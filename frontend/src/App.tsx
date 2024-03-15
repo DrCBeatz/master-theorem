@@ -1,6 +1,7 @@
 // frontend/src/App.tsx
 
 import { useState, useEffect, useRef } from "react";
+import { SelectData } from "mdb-react-ui-kit/dist/types/pro/forms/SelectV2/types";
 import Chart from "chart.js/auto";
 import "./App.css";
 import {
@@ -11,10 +12,10 @@ import {
   MDBCardHeader,
   MDBBtn,
   MDBInput,
-  MDBRadio,
   MDBAccordion,
   MDBAccordionItem,
   MDBIcon,
+  MDBSelect,
 } from "mdb-react-ui-kit";
 
 interface ResultType {
@@ -178,15 +179,12 @@ function App() {
 
   const handleAlgorithmChange = (algorithmId: number) => {
     if (algorithmId === -1) {
-      // User input selected
       setInputsDisabled(false);
       setA("");
       setB("");
       setK("");
-
-      setTempSelectedAlgorithmDetails(null);
+      setTempSelectedAlgorithmDetails(null); // Clear temporary algorithm details
     } else {
-      setInputsDisabled(true); // An algorithm is selected
       const selectedAlgorithm = algorithms.find(
         (alg) => alg.id === algorithmId
       );
@@ -194,7 +192,8 @@ function App() {
         setA(selectedAlgorithm.a.toString());
         setB(selectedAlgorithm.b.toString());
         setK(selectedAlgorithm.k.toString());
-        setTempSelectedAlgorithmDetails(selectedAlgorithm);
+        setInputsDisabled(true);
+        setTempSelectedAlgorithmDetails(selectedAlgorithm); // Temporarily store the selected algorithm
       }
     }
   };
@@ -210,6 +209,7 @@ function App() {
     event.preventDefault(); // Prevent default form submission behavior
     setShowResult(false);
 
+    // Update the displayed algorithm details upon form submission
     setSelectedAlgorithmDetails(tempSelectedAlgorithmDetails);
 
     try {
@@ -232,6 +232,28 @@ function App() {
       console.error("There was a problem with your fetch operation:", error);
     }
   };
+
+  const handleSelectAlgorithm = (data: SelectData | SelectData[]) => {
+    // If 'MDBSelect' supports multiple selections, 'data' could be an array
+    if (Array.isArray(data)) {
+      // This example assumes you're not handling multiple selections for algorithms
+      console.log("Multiple selections are not supported.");
+    } else {
+      // Handle a single selected item
+      const algorithmId = parseInt(data.value?.toString() || "-1", 10);
+
+      // Directly call `handleAlgorithmChange` here
+      handleAlgorithmChange(algorithmId);
+    }
+  };
+
+  const selectOptions = [
+    { text: "User Input", value: "-1" },
+    ...algorithms.map((algorithm) => ({
+      text: algorithm.name,
+      value: algorithm.id.toString(),
+    })),
+  ];
 
   return (
     <>
@@ -276,33 +298,12 @@ function App() {
               onChange={(e) => setK(e.target.value)}
               disabled={inputsDisabled}
             />
-            <h5 className="card-title">Preset Algorithms:</h5>
-
-            <div className="mb-3 mt-3 d-flex flex-wrap flex-md-nowrap justify-content-center">
-              <div className="my-1 mx-1">
-                <MDBRadio
-                  btn
-                  btnColor="secondary"
-                  name="algorithmRadio"
-                  id="algorithmRadioUserInput"
-                  label="User input"
-                  defaultChecked
-                  onChange={() => handleAlgorithmChange(-1)}
-                />
-              </div>
-              {algorithms.map((algorithm, index) => (
-                <div className="my-1 mx-1">
-                  <MDBRadio
-                    btn
-                    btnColor="secondary"
-                    key={algorithm.id}
-                    name="algorithmRadio"
-                    id={`algorithmRadio${index + 2}`} // +2 to continue the id sequence
-                    label={algorithm.name}
-                    onChange={() => handleAlgorithmChange(algorithm.id)}
-                  />
-                </div>
-              ))}
+            <div className="my-4">
+              <MDBSelect
+                data={selectOptions}
+                label="Choose Algorithm or Enter Values"
+                onChange={handleSelectAlgorithm}
+              />
             </div>
 
             <MDBBtn onClick={handleSubmit} className="btn-block">
