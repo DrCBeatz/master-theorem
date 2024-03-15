@@ -22,7 +22,7 @@ where a > 0 and b > 1
 ## How to use the app:
 
 1. Enter your own values for a, b, and k in the respective input fields.
-2. Ensure the 'User Input' option is selected under 'Algorithm Presets'.
+2. Ensure the 'User Input' option is selected under 'Choose Algorithm or Enter Values'.
 3. Click the 'Evaluate' button to see the results.
 
 Try the following sample inputs:
@@ -31,7 +31,7 @@ Try the following sample inputs:
 - a = 4, b = 2, k = 2
 - a = 4, b = 2, k = 3
 
-You can also choose from various preset algorithms (e.g., binary search or merge sort) by clicking one of these options, then click 'Evaluate'. You'll be able to see sample code and a description of the algorithm below the evaluation.
+You can also choose from various preset algorithms (e.g., binary search or merge sort) by clicking the 'Choose Algorithm or Enter Values' select field, then click 'Evaluate'. You'll be able to see sample code and a description of the algorithm below the evaluation.
 
 ## How to install locally
 
