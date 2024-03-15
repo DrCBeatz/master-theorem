@@ -17,7 +17,7 @@
 
 #myChart {
   max-width: 100%;
-  max-height: 50vh;
+  max-height: 55vh;
 }
 
 .evaluation-card-body {
@@ -60,6 +60,16 @@ pre {
   }
 
   pre {
-    font-size: calc(12px + (14 - 12) * ((100vw - 300px) / (700 - 300)));
+    font-size: 13px;
+  }
+
+  article {
+    font-size: calc(13px + (14 - 12) * ((100vw - 300px) / (700 - 300)));
+  }
+}
+
+@media (min-width: 1200px) {
+  #myChart {
+    max-height: 65vh;
   }
 }
