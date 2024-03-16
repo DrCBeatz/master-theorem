@@ -1,4 +1,6 @@
 .env
+.env.production
+.env.local
 *.pyc
 *.pyo
 *.pyd

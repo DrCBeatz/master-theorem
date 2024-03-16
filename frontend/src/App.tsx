@@ -164,7 +164,10 @@ function App() {
   useEffect(() => {
     const fetchAlgorithms = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/algorithms");
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/algorithms`
+        );
+
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -213,13 +216,16 @@ function App() {
     setSelectedAlgorithmDetails(tempSelectedAlgorithmDetails);
 
     try {
-      const response = await fetch("http://localhost:8000/api/evaluate/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ a, b, k }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/evaluate/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ a, b, k }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
