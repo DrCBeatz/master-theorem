@@ -18,10 +18,15 @@ import {
   MDBSelect,
 } from "mdb-react-ui-kit";
 
+// const CASE_1 = "Case 1: Θ(n<sup>log<sub>b</sub>(a)</sup>)";
+// const CASE_2 = "Case 2: Θ(n<sup>k</sup> log n)";
+const CASE_3 = "Case 3: Θ(n<sup>k</sup>)";
+
 interface ResultType {
   complexity: string;
   case: string;
   recurrence_relation: string;
+  regularity_condition_met?: boolean;
   plot_data: {
     n: number[];
     n_log_b_a: number[];
@@ -338,6 +343,14 @@ function App() {
               <span dangerouslySetInnerHTML={{ __html: result.case }}></span>
             </MDBCardText>
 
+            {result.case.includes(CASE_3) && ( // Check if the case includes the string for Case 3
+              <MDBCardText>
+                <strong>Regularity Condition Met:</strong>{" "}
+                {result.regularity_condition_met !== undefined && // Check if regularity_condition_met is defined
+                  (result.regularity_condition_met ? "Yes" : "No")}
+              </MDBCardText>
+            )}
+
             <MDBCardText>
               <strong>Time Complexity: </strong>
               <span
@@ -525,7 +538,12 @@ function App() {
                 <sup>
                   log<sub>b</sub>(a)
                 </sup>{" "}
-                (and also fulfills the regularity condition<sup>*</sup>) :
+                (and must also fulfill the{" "}
+                <strong>
+                  regularity condition
+                  <sup>*</sup>)
+                </strong>{" "}
+                :
               </p>
               <p className="text-center">
                 <strong>
@@ -557,14 +575,8 @@ function App() {
               </ul>
               <p>
                 <small>
-                  <strong>*</strong> Please note that this app evaluates n
-                  <sup>
-                    log<sub>b</sub>(a)
-                  </sup>
-                  and f(n<sup>k</sup>) using their exponents and does not assess
-                  the regularity condition in Case 3, or whether the difference
-                  in growth between these two functions is polynomial. The
-                  regularity condition ensures that the work done at the
+                  <strong>* </strong>
+                  The regularity condition ensures that the work done at the
                   recursive levels does not grow too quickly compared to the
                   work done to divide the problem and combine the results. This
                   condition helps maintain the integrity of the complexity
