@@ -20,7 +20,7 @@ class EvaluateMasterTheoremAPIView(APIView):
             a = serializer.validated_data['a']
             b = serializer.validated_data['b']
             k = serializer.validated_data['k']
-            complexity, case, recurrence_relation = evaluate_master_theorem(a, b, k)
+            complexity, case, recurrence_relation, regularity_condition_met = evaluate_master_theorem(a, b, k)
             
             # Calculate plot data
             plot_data = calculate_plot_data(a, b, k)
@@ -29,6 +29,7 @@ class EvaluateMasterTheoremAPIView(APIView):
                 'complexity': complexity,
                 'case': case,
                 'recurrence_relation': recurrence_relation,
+                'regularity_condition_met': regularity_condition_met,
                 'plot_data': plot_data,
             }
             return Response(data, status=status.HTTP_200_OK)

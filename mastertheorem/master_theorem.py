@@ -11,7 +11,11 @@ CASE_1 = f"Case 1: Θ(n<sup>log<sub>b</sub>(a)</sup>)"
 CASE_2 = f"Case 2: Θ(n<sup>k</sup> log n)"
 CASE_3 = f"Case 3: Θ(n<sup>k</sup>)"
 
-def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str, str]:
+def check_regularity_condition(a: int, b: int, k: int) -> bool:
+    # check if a/b^k < 1
+    return a / b ** k < 1
+
+def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str, str, bool]:
     if a<= 0:
         raise ValueError("Parameter 'a' must be greater than 0.")
     if b <= 1:
@@ -43,13 +47,19 @@ def evaluate_master_theorem(a: int, b: int, k: int) -> Tuple[str, str, str]:
             complexity = f"Θ(n<sup>{k}</sup>)" # Using exponent k
             case = CASE_3
     
+    regularity_condition_met = False
+    if log_b_a < k:
+        regularity_condition_met = check_regularity_condition(a, b, k)
+        if not regularity_condition_met:
+            case += " (Regularity Condition Not Met)"
+    
     # Format recurrence relation according to the value of k
     if k > 0:
         recurrence_relation = f"T(n) = {a}T(n/{b}) + f(n<sup>{k}</sup>)"
     else: # k == 0, implies f(n^0) which is f(1), so typically not shown
         recurrence_relation = f"T(n) = {a}T(n/{b}) + f(1)"
     
-    return complexity, case, recurrence_relation
+    return complexity, case, recurrence_relation, regularity_condition_met
 
 
 
@@ -156,7 +166,7 @@ def main() -> None:
     k = int(k_input)
 
     # Proceed with the evaluation and plotting
-    complexity, case, recurrence_relation = evaluate_master_theorem(a, b, k)
+    complexity, case, recurrence_relation, _ = evaluate_master_theorem(a, b, k)
     print(f"\nRecurrence Relation: {recurrence_relation}")
     print(f"Complexity: {complexity} ({case})")
 
