@@ -107,9 +107,13 @@ def test_recurrence_relation_output(a: int, b: int, k: int, expected_recurrence_
        assert recurrence_relation == expected_recurrence_relation, f"Recurrence relation does not expected output for parameters a={a}, b={b}, k={k}"
 
 @pytest.mark.parametrize("a,b,k,expected_regularity", [
-    (4, 2, 3, True),
-    (10,2,3, False),
+    (4, 2, 3, True),  # Regular condition met
+    (10, 2, 3, False),  # Regular condition not met
+    (8, 2, 3, False),  # Case 3 but does not satisfy the regularity condition.
+    (9, 2, 3, False),  # Just over the edge, regularity condition not met
+    (2, 2, 1, False),  # Case 2, regularity condition not applicable.
+    (1000, 10, 3, False),  # Large numbers, regularity condition not met
 ])
 def test_regularity_condition(a: int, b: int, k: int, expected_regularity: bool):
     _, _, _, regularity_condition_met = evaluate_master_theorem(a, b, k)
-    assert regularity_condition_met == expected_regularity, f'Regularity condition failed for parameters a={a}, b={b}, k={k}'
+    assert regularity_condition_met == expected_regularity, f"Regularity condition failed for parameters a={a}, b={b}, k={k}"
