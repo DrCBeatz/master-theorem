@@ -277,6 +277,11 @@ function App() {
             <span className="card-title">
               Enter the values of a, b, and k to evaluate the Master Theorem:
             </span>
+            <p className="text-center mt-3">
+              <strong>
+                T(n) = {a || "a"}T(n/{b || "b"}) + f(n<sup>{k || "k"}</sup>)
+              </strong>
+            </p>
           </MDBCardTitle>
           <form onSubmit={handleSubmitForm}>
             <MDBInput
