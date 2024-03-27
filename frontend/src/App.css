@@ -73,3 +73,30 @@ pre {
     max-height: 65vh;
   }
 }
+
+.formula-container {
+  background: rgb(228, 231, 235);
+  padding: 10px;
+  border-radius: 5px;
+  margin: 20px;
+  text-align: center;
+  border: rgb(175, 175, 175) 1px solid;
+}
+
+.formula-text {
+  font-family: monospace;
+}
+
+.variable-default {
+  color: #858585;
+} /* Default color */
+
+.variable-a {
+  color: #007bff;
+}
+.variable-b {
+  color: #28a745;
+}
+.variable-k {
+  color: #dc3545;
+}

@@ -277,12 +277,27 @@ function App() {
             <span className="card-title">
               Enter the values of a, b, and k to evaluate the Master Theorem:
             </span>
-            <p className="text-center mt-3">
-              <strong>
-                T(n) = {a || "a"}T(n/{b || "b"}) + f(n<sup>{k || "k"}</sup>)
+            <div className="formula-container">
+              <strong className="formula-text">
+                T(n) ={" "}
+                <span className={`variable-default ${a ? "variable-a" : ""}`}>
+                  {a || "a"}
+                </span>
+                T(n/
+                <span className={`variable-default ${b ? "variable-b" : ""}`}>
+                  {b || "b"}
+                </span>
+                ) + f(n
+                <sup>
+                  <span className={`variable-default ${k ? "variable-k" : ""}`}>
+                    {k || "k"}
+                  </span>
+                </sup>
+                )
               </strong>
-            </p>
+            </div>
           </MDBCardTitle>
+
           <form onSubmit={handleSubmitForm}>
             <MDBInput
               label="a (number of subproblems)"
