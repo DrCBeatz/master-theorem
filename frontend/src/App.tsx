@@ -266,6 +266,18 @@ function App() {
     })),
   ];
 
+  const handleIntegerInputChange = (
+    value: string,
+    setter: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    // Check if the input is an integer number
+    if (/^\d+$/.test(value) || value === "") {
+      // Update the state if the input is an integer or empty (to allow clearing the input)
+      setter(value);
+    }
+    // If the input is not an integer, you could optionally handle this case (e.g., show a warning or reset to a default value)
+  };
+
   return (
     <>
       <MDBCard alignment="center">
@@ -302,31 +314,31 @@ function App() {
             <MDBInput
               label="a (number of subproblems)"
               id="aInput"
-              type="number"
+              type="text"
               min="1"
               className="my-4"
               value={a}
-              onChange={(e) => setA(e.target.value)}
+              onChange={(e) => handleIntegerInputChange(e.target.value, setA)}
               disabled={inputsDisabled}
             />
             <MDBInput
               label="b (factor by which problem size is reduced)"
               id="bInput"
-              type="number"
+              type="text"
               min="2"
               className="my-4"
               value={b}
-              onChange={(e) => setB(e.target.value)}
+              onChange={(e) => handleIntegerInputChange(e.target.value, setB)}
               disabled={inputsDisabled}
             />
             <MDBInput
               label="k (exponent in the work outside of recursive calls)"
               id="kInput"
-              type="number"
+              type="text"
               min="0"
               className="my-4"
               value={k}
-              onChange={(e) => setK(e.target.value)}
+              onChange={(e) => handleIntegerInputChange(e.target.value, setK)}
               disabled={inputsDisabled}
             />
             <div className="my-4">
