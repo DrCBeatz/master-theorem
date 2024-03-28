@@ -349,7 +349,11 @@ function App() {
               />
             </div>
 
-            <MDBBtn onClick={handleSubmit} className="btn-block">
+            <MDBBtn
+              onClick={handleSubmit}
+              className="btn-block"
+              disabled={!a || !b || !k}
+            >
               Evaluate
             </MDBBtn>
           </form>
