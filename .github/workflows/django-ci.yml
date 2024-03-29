@@ -71,9 +71,22 @@ jobs:
       - name: Add MDB API Key
         run: docker-compose exec -T web python manage.py addapikey
 
+      # - name: Run frontend tests
+      #   run: |
+      #     docker-compose exec -T web bash -c "cd frontend && npm install && npm run test"
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20.9.0"
+
+      - name: Install Node.js dependencies
+        run: npm install
+        working-directory: ./frontend/
+
       - name: Run frontend tests
-        run: |
-          docker-compose exec -T web bash -c "cd frontend && npm install && npm run test"
+        run: npm test
+        working-directory: ./frontend/
 
       - name: Remove MDB API Key
         run: docker-compose exec -T web python manage.py removeapikey
