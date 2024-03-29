@@ -161,6 +161,7 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
       />
       <div className="my-4">
         <MDBSelect
+          data-testid="algorithm-select"
           data={selectOptions}
           label="Choose Algorithm or Enter Values"
           onChange={handleAlgorithmChange}
