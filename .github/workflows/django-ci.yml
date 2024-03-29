@@ -1,4 +1,3 @@
-# .github/workflows/django-ci.yml
 name: Django CI Pipeline
 
 on:
@@ -21,44 +20,50 @@ jobs:
       DJANGO_SECURE_HSTS_PRELOAD: "False"
       DJANGO_SESSION_COOKIE_SECURE: "False"
       DJANGO_CSRF_COOKIE_SECURE: "False"
+      MDB_PRO_KEY: ${{ secrets.MDB_PRO_KEY }}
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
 
     steps:
       - uses: actions/checkout@v2
-
+      
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-
-      - name: Cache Docker layers
-        uses: actions/cache@v2
+      
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
         with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-buildx-
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Create .env file
-        run: |
-          echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
-          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
-          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env
-
-      - name: Build Docker image
+      - name: Build and push Docker images
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile
-          push: false
-          load: true
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          push: true
+          tags: user/app:latest
 
       - name: Start Docker Compose services
         run: docker-compose up -d
 
       - name: Run backend tests
-        run: docker-compose run web pytest
+        run: docker-compose exec web pytest
 
-        # Clean up Docker containers
-      - name: Shutdown
+      - name: Add MDB API Key
+        run: docker-compose exec web python manage.py addapikey
+
+      - name: Run frontend tests
+        run: |
+          docker-compose exec web bash -c "cd frontend && npm install && npm run test"
+      
+      - name: Remove MDB API Key
+        run: docker-compose exec web python manage.py removeapikey
+
+      - name: Clean up
         run: docker-compose down
