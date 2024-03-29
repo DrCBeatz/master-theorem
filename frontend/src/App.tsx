@@ -17,6 +17,7 @@ import {
   MDBIcon,
   MDBSelect,
 } from "mdb-react-ui-kit";
+import Header from "./components/Header/Header";
 
 // const CASE_1 = "Case 1: Θ(n<sup>log<sub>b</sub>(a)</sup>)";
 // const CASE_2 = "Case 2: Θ(n<sup>k</sup> log n)";
@@ -281,9 +282,7 @@ function App() {
   return (
     <>
       <MDBCard alignment="center">
-        <MDBCardHeader>
-          <h1 className="main-header">Evaluate Master Theorem</h1>
-        </MDBCardHeader>
+        <Header />
         <MDBCardBody>
           <MDBCardTitle>
             <span className="card-title">
