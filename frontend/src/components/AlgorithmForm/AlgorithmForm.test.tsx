@@ -8,7 +8,6 @@ describe("AlgorithmForm", () => {
     render(
       <AlgorithmForm
         onSubmit={vi.fn()}
-        onAlgorithmSelect={vi.fn()}
         onUpdateA={vi.fn()}
         onUpdateB={vi.fn()}
         onUpdateK={vi.fn()}
@@ -24,7 +23,6 @@ describe("AlgorithmForm", () => {
     render(
       <AlgorithmForm
         onSubmit={vi.fn()}
-        onAlgorithmSelect={vi.fn()}
         onUpdateA={vi.fn()}
         onUpdateB={vi.fn()}
         onUpdateK={vi.fn()}
@@ -63,7 +61,6 @@ describe("AlgorithmForm", () => {
     render(
       <AlgorithmForm
         onSubmit={onSubmitMock}
-        onAlgorithmSelect={vi.fn()}
         onUpdateA={vi.fn()}
         onUpdateB={vi.fn()}
         onUpdateK={vi.fn()}
@@ -83,28 +80,7 @@ describe("AlgorithmForm", () => {
     );
     await user.click(screen.getByRole("button", { name: /evaluate/i }));
 
-    expect(onSubmitMock).toHaveBeenCalledWith("4", "2", "1");
+    // Updated expectation to match the implementation
+    expect(onSubmitMock).toHaveBeenCalledWith("4", "2", "1", undefined);
   });
-
-//   it("calls onAlgorithmSelect with the right algorithm when one is selected", async () => {
-//     const onAlgorithmSelectMock = vi.fn();
-//     const user = userEvent.setup();
-//     render(
-//       <AlgorithmForm
-//         onSubmit={vi.fn()}
-//         onAlgorithmSelect={onAlgorithmSelectMock}
-//         onUpdateA={vi.fn()}
-//         onUpdateB={vi.fn()}
-//         onUpdateK={vi.fn()}
-//       />
-//     );
-
-//     // Assuming "Algorithm 1" is an option and has a value associated with it
-//     await user.selectOptions(screen.getByTestId("algorithm-select"), "-1");
-
-//     expect(onAlgorithmSelectMock).toHaveBeenCalled();
-//     // Further assertions can be made depending on how much you know about the mock data
-//   });
-
-
 });

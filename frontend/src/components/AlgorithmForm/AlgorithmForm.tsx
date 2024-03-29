@@ -15,8 +15,12 @@ interface AlgorithmType {
 }
 
 interface AlgorithmFormProps {
-  onSubmit: (a: string, b: string, k: string) => void;
-  onAlgorithmSelect: (algorithm: AlgorithmType | null) => void;
+  onSubmit: (
+    a: string,
+    b: string,
+    k: string,
+    selectedAlgorithm?: AlgorithmType
+  ) => void;
   onUpdateA: (a: string) => void;
   onUpdateB: (b: string) => void;
   onUpdateK: (k: string) => void;
@@ -24,7 +28,6 @@ interface AlgorithmFormProps {
 
 const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
   onSubmit,
-  onAlgorithmSelect,
   onUpdateA,
   onUpdateB,
   onUpdateK,
@@ -34,6 +37,9 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
   const [k, setK] = useState("");
   const [algorithms, setAlgorithms] = useState<AlgorithmType[]>([]);
   const [inputsDisabled, setInputsDisabled] = useState(false);
+  const [selectedAlgorithmId, setSelectedAlgorithmId] = useState<number | null>(
+    null
+  );
   useState<AlgorithmType | null>(null);
 
   useEffect(() => {
@@ -82,7 +88,7 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
         onUpdateB("");
         onUpdateK("");
 
-        onAlgorithmSelect?.(null);
+        setSelectedAlgorithmId(null);
       } else {
         // Proceed with finding and setting the selected algorithm
         const selectedAlg =
@@ -96,7 +102,7 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
           onUpdateB(selectedAlg.b.toString());
           onUpdateK(selectedAlg.k.toString());
           setInputsDisabled(true); // Disable the inputs if an algorithm is selected
-          onAlgorithmSelect(selectedAlg);
+          setSelectedAlgorithmId(algorithmId);
         } else {
           // This case shouldn't occur since "User Input" and valid algorithm IDs are handled above
           console.error("Invalid algorithm selected");
@@ -110,7 +116,10 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(a, b, k);
+    const selectedAlgorithm = algorithms.find(
+      (alg) => alg.id === selectedAlgorithmId
+    );
+    onSubmit(a, b, k, selectedAlgorithm);
   };
 
   const selectOptions = [

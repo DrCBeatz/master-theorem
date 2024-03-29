@@ -172,9 +172,17 @@ function App() {
     }
   }, [showResult, result]);
 
-  const handleSubmit = async (a: string, b: string, k: string) => {
+  const handleSubmit = async (
+    a: string,
+    b: string,
+    k: string,
+    selectedAlgorithm?: AlgorithmType // Adjusted to optional AlgorithmType
+  ) => {
     setShowResult(false);
-
+  
+    // Directly use the passed selectedAlgorithm, if any
+    setSelectedAlgorithmDetails(selectedAlgorithm ?? null);
+  
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/evaluate/`,
@@ -186,11 +194,11 @@ function App() {
           body: JSON.stringify({ a, b, k }),
         }
       );
-
+  
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
+  
       const data = await response.json();
       setResult(data);
       setShowResult(true);
@@ -198,7 +206,7 @@ function App() {
       console.error("There was a problem with your fetch operation:", error);
     }
   };
-
+  
   return (
     <>
       <MDBCard alignment="center">
@@ -231,7 +239,7 @@ function App() {
 
           <AlgorithmForm
             onSubmit={handleSubmit}
-            onAlgorithmSelect={setSelectedAlgorithmDetails}
+            // onAlgorithmSelect={setSelectedAlgorithmDetails}
             onUpdateA={handleUpdateA}
             onUpdateB={handleUpdateB}
             onUpdateK={handleUpdateK}
