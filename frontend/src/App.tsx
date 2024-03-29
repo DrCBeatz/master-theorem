@@ -1,7 +1,6 @@
 // frontend/src/App.tsx
 
 import { useState, useEffect, useRef } from "react";
-import { SelectData } from "mdb-react-ui-kit/dist/types/pro/forms/SelectV2/types";
 import Chart from "chart.js/auto";
 import "./App.css";
 import {
@@ -10,14 +9,12 @@ import {
   MDBCardTitle,
   MDBCardText,
   MDBCardHeader,
-  MDBBtn,
-  MDBInput,
   MDBAccordion,
   MDBAccordionItem,
   MDBIcon,
-  MDBSelect,
 } from "mdb-react-ui-kit";
 import Header from "./components/Header/Header";
+import AlgorithmForm from "./components/AlgorithmForm/AlgorithmForm";
 
 // const CASE_1 = "Case 1: Θ(n<sup>log<sub>b</sub>(a)</sup>)";
 // const CASE_2 = "Case 2: Θ(n<sup>k</sup> log n)";
@@ -55,12 +52,21 @@ function App() {
   const [k, setK] = useState("");
   const [result, setResult] = useState<ResultType | null>(null);
   const [showResult, setShowResult] = useState(false);
-  const [algorithms, setAlgorithms] = useState<AlgorithmType[]>([]);
-  const [inputsDisabled, setInputsDisabled] = useState(false);
   const [selectedAlgorithmDetails, setSelectedAlgorithmDetails] =
     useState<AlgorithmType | null>(null);
-  const [tempSelectedAlgorithmDetails, setTempSelectedAlgorithmDetails] =
-    useState<AlgorithmType | null>(null);
+  useState<AlgorithmType | null>(null);
+
+  const handleUpdateA = (newA: string) => {
+    setA(newA);
+  };
+
+  const handleUpdateB = (newB: string) => {
+    setB(newB);
+  };
+
+  const handleUpdateK = (newK: string) => {
+    setK(newK);
+  };
 
   const chartRef = useRef<HTMLCanvasElement>(null);
 
@@ -166,60 +172,8 @@ function App() {
     }
   }, [showResult, result]);
 
-  // Fetch the list of algorithms on component mount
-  useEffect(() => {
-    const fetchAlgorithms = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/algorithms`
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setAlgorithms(data); // Store fetched algorithms
-      } catch (error) {
-        console.error("Failed to fetch algorithms:", error);
-      }
-    };
-    fetchAlgorithms();
-  }, []);
-
-  const handleAlgorithmChange = (algorithmId: number) => {
-    if (algorithmId === -1) {
-      setInputsDisabled(false);
-      setA("");
-      setB("");
-      setK("");
-      setTempSelectedAlgorithmDetails(null); // Clear temporary algorithm details
-    } else {
-      const selectedAlgorithm = algorithms.find(
-        (alg) => alg.id === algorithmId
-      );
-      if (selectedAlgorithm) {
-        setA(selectedAlgorithm.a.toString());
-        setB(selectedAlgorithm.b.toString());
-        setK(selectedAlgorithm.k.toString());
-        setInputsDisabled(true);
-        setTempSelectedAlgorithmDetails(selectedAlgorithm); // Temporarily store the selected algorithm
-      }
-    }
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmitForm = async (event: React.MouseEvent<any>) => {
-    event.preventDefault();
-    await handleSubmit(event);
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (event: React.MouseEvent<any>) => {
-    event.preventDefault(); // Prevent default form submission behavior
+  const handleSubmit = async (a: string, b: string, k: string) => {
     setShowResult(false);
-
-    // Update the displayed algorithm details upon form submission
-    setSelectedAlgorithmDetails(tempSelectedAlgorithmDetails);
 
     try {
       const response = await fetch(
@@ -243,40 +197,6 @@ function App() {
     } catch (error) {
       console.error("There was a problem with your fetch operation:", error);
     }
-  };
-
-  const handleSelectAlgorithm = (data: SelectData | SelectData[]) => {
-    // If 'MDBSelect' supports multiple selections, 'data' could be an array
-    if (Array.isArray(data)) {
-      // This example assumes you're not handling multiple selections for algorithms
-      console.log("Multiple selections are not supported.");
-    } else {
-      // Handle a single selected item
-      const algorithmId = parseInt(data.value?.toString() || "-1", 10);
-
-      // Directly call `handleAlgorithmChange` here
-      handleAlgorithmChange(algorithmId);
-    }
-  };
-
-  const selectOptions = [
-    { text: "User Input", value: "-1" },
-    ...algorithms.map((algorithm) => ({
-      text: algorithm.name,
-      value: algorithm.id.toString(),
-    })),
-  ];
-
-  const handleIntegerInputChange = (
-    value: string,
-    setter: React.Dispatch<React.SetStateAction<string>>
-  ) => {
-    // Check if the input is an integer number
-    if (/^\d+$/.test(value) || value === "") {
-      // Update the state if the input is an integer or empty (to allow clearing the input)
-      setter(value);
-    }
-    // If the input is not an integer, you could optionally handle this case (e.g., show a warning or reset to a default value)
   };
 
   return (
@@ -309,53 +229,13 @@ function App() {
             </div>
           </MDBCardTitle>
 
-          <form onSubmit={handleSubmitForm}>
-            <MDBInput
-              label="a (number of subproblems)"
-              id="aInput"
-              type="text"
-              min="1"
-              className="my-4"
-              value={a}
-              onChange={(e) => handleIntegerInputChange(e.target.value, setA)}
-              disabled={inputsDisabled}
-            />
-            <MDBInput
-              label="b (factor by which problem size is reduced)"
-              id="bInput"
-              type="text"
-              min="2"
-              className="my-4"
-              value={b}
-              onChange={(e) => handleIntegerInputChange(e.target.value, setB)}
-              disabled={inputsDisabled}
-            />
-            <MDBInput
-              label="k (exponent in the work outside of recursive calls)"
-              id="kInput"
-              type="text"
-              min="0"
-              className="my-4"
-              value={k}
-              onChange={(e) => handleIntegerInputChange(e.target.value, setK)}
-              disabled={inputsDisabled}
-            />
-            <div className="my-4">
-              <MDBSelect
-                data={selectOptions}
-                label="Choose Algorithm or Enter Values"
-                onChange={handleSelectAlgorithm}
-              />
-            </div>
-
-            <MDBBtn
-              onClick={handleSubmit}
-              className="btn-block"
-              disabled={!a || !b || !k}
-            >
-              Evaluate
-            </MDBBtn>
-          </form>
+          <AlgorithmForm
+            onSubmit={handleSubmit}
+            onAlgorithmSelect={setSelectedAlgorithmDetails}
+            onUpdateA={handleUpdateA}
+            onUpdateB={handleUpdateB}
+            onUpdateK={handleUpdateK}
+          />
         </MDBCardBody>
       </MDBCard>
 
