@@ -1,4 +1,4 @@
-name: Django CI Pipeline
+name: CI Pipeline
 
 on:
   push:
@@ -71,14 +71,10 @@ jobs:
       - name: Add MDB API Key
         run: docker-compose exec -T web python manage.py addapikey
 
-      # - name: Run frontend tests
-      #   run: |
-      #     docker-compose exec -T web bash -c "cd frontend && npm install && npm run test"
-
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "20.9.0"
+          node-version: "20.x"
 
       - name: Install Node.js dependencies
         run: npm install
