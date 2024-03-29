@@ -282,7 +282,7 @@ function App() {
   return (
     <>
       <MDBCard alignment="center">
-        <Header />
+        <Header title="Evaluate Master Theorem" />
         <MDBCardBody>
           <MDBCardTitle>
             <span className="card-title">
