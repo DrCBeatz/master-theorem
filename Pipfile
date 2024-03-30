@@ -10,6 +10,7 @@ numpy = "*"
 matplotlib = "*"
 django = "==4.2.10"
 psycopg2-binary = "==2.9.9"
+awsebcli = "*"
 
 [dev-packages]
 ipykernel = "*"
