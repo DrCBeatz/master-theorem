@@ -75,12 +75,10 @@ pre {
 }
 
 .formula-container {
-  background: rgb(228, 231, 235);
   padding: 10px;
   border-radius: 5px;
   margin: 20px;
   text-align: center;
-  border: rgb(175, 175, 175) 1px solid;
 }
 
 .formula-text {
@@ -88,7 +86,8 @@ pre {
 }
 
 .variable-default {
-  color: #858585;
+  /* color: #858585; */
+  color: #a2a2a2;
 } /* Default color */
 
 .variable-a {
