@@ -36,5 +36,5 @@ class EvaluateMasterTheoremAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
     
 class AlgorithmList(generics.ListAPIView):
-    queryset = Algorithm.objects.all()
+    queryset = Algorithm.objects.all().order_by('id')
     serializer_class = AlgorithmSerializer
