@@ -142,7 +142,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
     "http://mastertheorem-aws-dev2.us-west-2.elasticbeanstalk.com",
-    "www.mastertheorem.io",
+    "http://www.mastertheorem.io",
 ]
 
 
@@ -151,7 +151,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "http://mastertheorem-aws-dev2.us-west-2.elasticbeanstalk.com",
-    "www.mastertheorem.io",
+    "http://www.mastertheorem.io",
 ]
 
 # Production security settings
