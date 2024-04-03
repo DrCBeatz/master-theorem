@@ -145,7 +145,7 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
         disabled={inputsDisabled}
       />
       <MDBInput
-        label="b (factor by which problem size is reduced)"
+        label="b (factor to reduce problem size)"
         id="bInput"
         type="text"
         min="2"
@@ -157,7 +157,7 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
         disabled={inputsDisabled}
       />
       <MDBInput
-        label="k (exponent in the work outside of recursive calls)"
+        label="k (non-recursive work exponent)"
         id="kInput"
         type="text"
         min="0"
@@ -172,7 +172,7 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
         <MDBSelect
           data-testid="algorithm-select"
           data={selectOptions}
-          label="Choose Algorithm or Enter Values"
+          label="Enter Values or Choose Algorithm"
           onChange={handleAlgorithmChange}
         />
       </div>
