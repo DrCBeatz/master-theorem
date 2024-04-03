@@ -35,23 +35,19 @@ describe("AlgorithmForm", () => {
     );
 
     await user.type(
-      screen.getByLabelText(/b \(factor by which problem size is reduced\)/i),
+      screen.getByLabelText(/b \(factor to reduce problem size\)/i),
       "2"
     );
     expect(
-      screen.getByLabelText(/b \(factor by which problem size is reduced\)/i)
+      screen.getByLabelText(/b \(factor to reduce problem size\)/i)
     ).toHaveValue("2");
 
     await user.type(
-      screen.getByLabelText(
-        /k \(exponent in the work outside of recursive calls\)/i
-      ),
+      screen.getByLabelText(/k \(non-recursive work exponent\)/i),
       "1"
     );
     expect(
-      screen.getByLabelText(
-        /k \(exponent in the work outside of recursive calls\)/i
-      )
+      screen.getByLabelText(/k \(non-recursive work exponent\)/i)
     ).toHaveValue("1");
   });
 
@@ -69,13 +65,11 @@ describe("AlgorithmForm", () => {
 
     await user.type(screen.getByLabelText(/a \(number of subproblems\)/i), "4");
     await user.type(
-      screen.getByLabelText(/b \(factor by which problem size is reduced\)/i),
+      screen.getByLabelText(/b \(factor to reduce problem size\)/i),
       "2"
     );
     await user.type(
-      screen.getByLabelText(
-        /k \(exponent in the work outside of recursive calls\)/i
-      ),
+      screen.getByLabelText(/k \(non-recursive work exponent\)/i),
       "1"
     );
     await user.click(screen.getByRole("button", { name: /evaluate/i }));
