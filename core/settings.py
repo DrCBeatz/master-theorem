@@ -18,7 +18,6 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "testserver",
-    "mastertheorem-aws-dev2.us-west-2.elasticbeanstalk.com",
     "www.mastertheorem.io",
 ]
 
@@ -141,9 +140,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:8000",
     "http://localhost:8000",
-    "http://mastertheorem-aws-dev2.us-west-2.elasticbeanstalk.com",
     "http://www.mastertheorem.io",
-    "https://www.mastertheorem.io",
 ]
 
 
@@ -151,23 +148,21 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:5173",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    "http://mastertheorem-aws-dev2.us-west-2.elasticbeanstalk.com",
     "http://www.mastertheorem.io",
-    "https://www.mastertheorem.io",
 ]
 
 # Production security settings
 
-SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
+SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=False)
 
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=2592000)
+SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=0)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool(
-    "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True
+    "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=False
 )
-SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=True)
+SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=False)
 
-SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=True)
+SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=False)
 
-CSRF_COOKIE_SECURE = env.bool("DJANGO_CSRF_COOKIE_SECURE", default=True)
+CSRF_COOKIE_SECURE = env.bool("DJANGO_CSRF_COOKIE_SECURE", default=False)
