@@ -15,12 +15,13 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
 ALLOWED_HOSTS = [
-    '*',
-    # "localhost",
-    # "127.0.0.1",
-    # "testserver",
-    # "www.mastertheorem.io",
-    # "mastertheorem-aws-dev.us-west-2.elasticbeanstalk.com"
+    # '*',
+    "localhost",
+    "127.0.0.1",
+    "testserver",
+    "www.mastertheorem.io",
+    "mastertheorem-aws-dev.us-west-2.elasticbeanstalk.com"
+    env.("INTERNAL_IP_ADDRESS", default=""),
 ]
 
 
