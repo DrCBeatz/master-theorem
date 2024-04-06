@@ -20,8 +20,8 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "testserver",
     "www.mastertheorem.io",
-    "mastertheorem-aws-dev.us-west-2.elasticbeanstalk.com"
-    env.("INTERNAL_IP_ADDRESS", default=""),
+    "mastertheorem-aws-dev.us-west-2.elasticbeanstalk.com",
+    env("INTERNAL_IP_ADDRESS", default=""),
 ]
 
 
