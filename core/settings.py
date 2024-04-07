@@ -44,6 +44,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "csp.middleware.CSPMiddleware",
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -130,6 +131,41 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = env.bool("DJANGO_CORS_ALLOW_ALL_ORIGINS", default=False)
 CORS_ALLOW_CREDENTIALS = env.bool("DJANGO_CORS_ALLOW_CREDENTIALS", default=False)
+
+# django-csp headers:
+
+CSP_STYLE_SRC = (
+    "'self'",
+    "use.fontawesome.com",
+    "cdnjs.cloudflare.com",
+    "fonts.googleapis.com",
+)
+
+CSP_SCRIPT_SRC = ("'self'",)
+
+CSP_IMG_SRC = (
+    "'self'",
+    "data:",
+    "blob:",
+)
+
+CSP_FONT_SRC = (
+    "'self'",
+    "fonts.googleapis.com",
+    "data:",
+)
+
+CSP_CONNECT_SRC = ("'self'",)
+CSP_OBJECT_SRC = ("'none'",)
+CSP_BASE_URI = ("'self'",)
+CSP_FRAME_ANCESTORS = "'self'"
+CSP_FORM_ACTION = ("'self'",)
+CSP_INCLUDE_NONCE_IN = ("script-src", "style-src")
+CSP_MANIFEST_SRC = ("'self'",)
+CSP_WORKER_SRC = ("'self'",)
+CSP_MEDIA_SRC = ("'self'",)
+CSP_CONNECT_SRC = ("'self'",)
+CSP_DEFAULT_SRC = ("'none'",)
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
