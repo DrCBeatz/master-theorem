@@ -152,6 +152,7 @@ CSP_IMG_SRC = (
 CSP_FONT_SRC = (
     "'self'",
     "fonts.googleapis.com",
+    "fonts.gstatic.com",
     "data:",
 )
 
