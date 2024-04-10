@@ -78,7 +78,7 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
     if (typeof value === "string") {
       const algorithmId = parseInt(value, 10);
 
-      // Check if the "User Input" option was selected
+      // Check if the "Enter Values" option was selected
       if (algorithmId === -1) {
         setInputsDisabled(false); // Enable the inputs
         setA("");
@@ -104,7 +104,7 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
           setInputsDisabled(true); // Disable the inputs if an algorithm is selected
           setSelectedAlgorithmId(algorithmId);
         } else {
-          // This case shouldn't occur since "User Input" and valid algorithm IDs are handled above
+          // This case shouldn't occur since "Enter Values" and valid algorithm IDs are handled above
           console.error("Invalid algorithm selected");
         }
       }
@@ -123,7 +123,7 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
   };
 
   const selectOptions = [
-    { text: "User Input", value: "-1" },
+    { text: "Enter Values", value: "-1" },
     ...algorithms.map((algorithm) => ({
       text: algorithm.name,
       value: algorithm.id.toString(),

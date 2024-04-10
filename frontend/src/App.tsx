@@ -16,8 +16,6 @@ import {
 import Header from "./components/Header/Header";
 import AlgorithmForm from "./components/AlgorithmForm/AlgorithmForm";
 
-// const CASE_1 = "Case 1: Θ(n<sup>log<sub>b</sub>(a)</sup>)";
-// const CASE_2 = "Case 2: Θ(n<sup>k</sup> log n)";
 const CASE_3 = "Case 3: Θ(n<sup>k</sup>)";
 
 interface ResultType {
@@ -179,10 +177,10 @@ function App() {
     selectedAlgorithm?: AlgorithmType // Adjusted to optional AlgorithmType
   ) => {
     setShowResult(false);
-  
+
     // Directly use the passed selectedAlgorithm, if any
     setSelectedAlgorithmDetails(selectedAlgorithm ?? null);
-  
+
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/evaluate/`,
@@ -194,11 +192,11 @@ function App() {
           body: JSON.stringify({ a, b, k }),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
+
       const data = await response.json();
       setResult(data);
       setShowResult(true);
@@ -206,7 +204,7 @@ function App() {
       console.error("There was a problem with your fetch operation:", error);
     }
   };
-  
+
   return (
     <>
       <MDBCard alignment="center">
@@ -239,7 +237,6 @@ function App() {
 
           <AlgorithmForm
             onSubmit={handleSubmit}
-            // onAlgorithmSelect={setSelectedAlgorithmDetails}
             onUpdateA={handleUpdateA}
             onUpdateB={handleUpdateB}
             onUpdateK={handleUpdateK}
