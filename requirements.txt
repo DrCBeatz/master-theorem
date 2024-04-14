@@ -14,6 +14,7 @@ environs[django]==9.5.0
 whitenoise==6.1.0
 gunicorn==20.1.0
 djangorestframework==3.14.0
+django-allow-cidr==0.7.1
 django-cors-headers==3.10.0
 django-csp==3.8
 fonttools==4.48.1 ; python_version >= '3.8'

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'allow_cidr.middleware.AllowCIDRMiddleware',
     'core.middleware.ELBHealthCheckMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -185,6 +186,8 @@ CORS_ORIGIN_WHITELIST = [
     "https://www.mastertheorem.io",
     "http://mastertheorem-aws-dev.us-west-2.elasticbeanstalk.com",
 ]
+
+ALLOW_CIDR_NETS = ['172.31.0.0/16']
 
 # Production security settings
 
