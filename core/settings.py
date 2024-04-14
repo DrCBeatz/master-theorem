@@ -3,6 +3,7 @@
 import os
 from pathlib import Path
 from environs import Env
+from socket import gethostname, gethostbyname, gethostbyname_ex
 
 env = Env()
 env.read_env()
@@ -14,7 +15,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default="*")
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default="*") + [ gethostname(), ] + list(set(gethostbyname_ex(gethostname())[2]))
 
 
 # Application definition
@@ -35,8 +36,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'allow_cidr.middleware.AllowCIDRMiddleware',
-    'core.middleware.ELBHealthCheckMiddleware',
+    # 'allow_cidr.middleware.AllowCIDRMiddleware',
+    # 'core.middleware.ELBHealthCheckMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -187,7 +188,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://mastertheorem-aws-dev.us-west-2.elasticbeanstalk.com",
 ]
 
-ALLOW_CIDR_NETS = ['172.31.0.0/16']
+# ALLOW_CIDR_NETS = ['172.31.0.0/16']
 
 # Production security settings
 
