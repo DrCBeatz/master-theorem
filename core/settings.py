@@ -3,7 +3,6 @@
 import os
 from pathlib import Path
 from environs import Env
-from socket import gethostname, gethostbyname, gethostbyname_ex
 
 env = Env()
 env.read_env()
@@ -15,8 +14,9 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default="*") + [ gethostname(), ] + list(set(gethostbyname_ex(gethostname())[2]))
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default="*") 
 
+ALLOWED_HOSTS += ['172.31.{}.{}'.format(i,j) for i in range(256) for j in range(256)]
 
 # Application definition
 
