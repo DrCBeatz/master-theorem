@@ -120,8 +120,8 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: mastertheorem-aws
           environment_name: mastertheorem-aws-dev
+          version_label: "app-0fb8-240414_204452280735"
           region: us-west-2
-          version_label: ${{ github.sha }}
           # deployment_package: drcbeatz/mastertheorem-aws:latest
 
       - name: Clean up
