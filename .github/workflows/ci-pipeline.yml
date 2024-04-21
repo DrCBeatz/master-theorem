@@ -113,16 +113,17 @@ jobs:
       - name: Push to Docker Hub
         run: docker push drcbeatz/mastertheorem-aws:latest
 
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v14
+      - name: Deploy
+        uses: moneymeets/action-beanstalk-deploy@master
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          docker_compose_path: "${{ github.workspace }}/docker-compose-prod.yml"
           application_name: mastertheorem-aws
           environment_name: mastertheorem-aws-dev
-          version_label: "app-0fb8-240414_204452280735"
-          region: us-west-2
-          # deployment_package: drcbeatz/mastertheorem-aws:latest
+          platform_hooks_path: "${{ github.workspace }}/beanstalk-platform-hooks"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-west-2
 
       - name: Clean up
         run: docker-compose down
