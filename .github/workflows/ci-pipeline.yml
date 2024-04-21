@@ -131,7 +131,6 @@ jobs:
       - name: Install EB CLI and Deploy
         run: |
           pip install awsebcli --upgrade
-          eb init mastertheorem-aws --platform "Docker" --region ${{ env.AWS_REGION }}
           eb use mastertheorem-aws-dev --region ${{ env.AWS_REGION }}
           eb deploy --staged --region ${{ env.AWS_REGION }}
         env:
