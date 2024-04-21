@@ -118,9 +118,10 @@ jobs:
 
       - name: Deploy to Elastic Beanstalk
         run: |
-          aws s3 cp dockerrun.zip s3://elasticbeanstalk-us-west-2-637423503463/master-theorem-aws/mastertheorem-aws/dockerrun.zip
-          aws elasticbeanstalk create-application-version --application-name mastertheorem-aws --version-label ${{ github.sha }} --source-bundle S3Bucket="elasticbeanstalk-us-west-2-637423503463/master-theorem-aws",S3Key="mastertheorem-aws/dockerrun.zip"
-          aws elasticbeanstalk update-environment --environment-name mastertheorem-aws-dev --version-label ${{ github.sha }}
+          aws s3 cp dockerrun.zip s3://elasticbeanstalk-us-west-2-637423503463/master-theorem-aws/dockerrun.zip
+          aws elasticbeanstalk create-application-version --application-name mastertheorem-aws --version-label fa1043d62f65eae688c95e6ddf3ab68186443d2b --source-bundle S3Bucket="elasticbeanstalk-us-west-2-637423503463",S3Key="master-theorem-aws/dockerrun.zip"
+          aws elasticbeanstalk update-environment --environment-name mastertheorem-aws-dev --version-label fa1043d62f65eae688c95e6ddf3ab68186443d2b
+          
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
