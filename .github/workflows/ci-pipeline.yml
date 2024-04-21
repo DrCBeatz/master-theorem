@@ -122,7 +122,7 @@ jobs:
           environment_name: mastertheorem-aws-dev
           region: us-west-2
           version_label: ${{ github.sha }}
-          deployment_package: drcbeatz/mastertheorem-aws:latest
+          # deployment_package: drcbeatz/mastertheorem-aws:latest
 
       - name: Clean up
         run: docker-compose down
