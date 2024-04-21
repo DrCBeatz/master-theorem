@@ -23,6 +23,7 @@ jobs:
       DJANGO_SESSION_COOKIE_SECURE: "False"
       DJANGO_CSRF_COOKIE_SECURE: "False"
       MDB_PRO_KEY: ${{ secrets.MDB_PRO_KEY }}
+      AWS_REGION: us-west-2
 
     services:
       postgres:
@@ -127,19 +128,14 @@ jobs:
         with:
           python-version: "3.9" # Specify the Python version.
 
-      - name: Install EB CLI
+      - name: Install EB CLI and Deploy
         run: |
           pip install awsebcli --upgrade
-
-      - name: Deploy using EB CLI
-        run: |
-          eb use mastertheorem-aws-dev  # Sets the default environment.
-           eb deploy --staged  # Deploys the application.
-
+          eb use mastertheorem-aws-dev --region ${{ env.AWS_REGION }}
+          eb deploy --staged --region ${{ env.AWS_REGION }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-west-2
 
       - name: Clean up
         run: docker-compose down
