@@ -96,16 +96,16 @@ jobs:
 
       - name: Remove MDB API Key
         run: docker-compose exec -T web python manage.py removeapikey
-      
+
       - name: Build Docker image
         run: docker build -t mastertheorem-aws .
 
       - name: Tag Docker image
-        run: docker tag mastertheorem-aws:latest drcbeatz/masthertheorem-aws:latest
-      
+        run: docker tag mastertheorem-aws:latest drcbeatz/mastertheorem-aws:latest
+
       - name: Push to Docker Hub
-        run: docker push drcbeatz/masthertheorem-aws:latest
-      
+        run: docker push drcbeatz/mastertheorem-aws:latest
+
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v14
         with:
@@ -115,7 +115,7 @@ jobs:
           environment_name: mastertheorem-aws-dev
           region: us-west-2
           version_label: ${{ github.sha }}
-          deployment_package: drcbeatz/masthertheorem-aws:latest
-        
+          deployment_package: drcbeatz/mastertheorem-aws:latest
+
       - name: Clean up
         run: docker-compose down
