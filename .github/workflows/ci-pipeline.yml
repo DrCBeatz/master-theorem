@@ -120,6 +120,8 @@ jobs:
           application_name: mastertheorem-aws
           environment_name: mastertheorem-aws-dev
           platform_hooks_path: "${{ github.workspace }}/beanstalk-platform-hooks"
+          version_label: ${{ github.sha }}
+          version_description: "GitHub Action #${{ github.run_number }}"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
