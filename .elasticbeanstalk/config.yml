@@ -11,8 +11,8 @@ global:
   include_git_submodules: true
   instance_profile: null
   platform_name: null
-  # platform_version: null
-  profile: eb-cli
+  platform_version: null
+  # profile: eb-cli
   profile: null
   repository: null
   sc: git
