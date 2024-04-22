@@ -131,7 +131,7 @@ jobs:
       - name: Install EB CLI and Deploy
         run: |
           pip install awsebcli --upgrade
-          eb use mastertheorem-aws-dev --region ${{ env.AWS_REGION }}
+          eb use mastertheorem-aws-dev --region ${{ env.AWS_REGION }} # all-access-pass
           eb deploy --staged --region ${{ env.AWS_REGION }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
