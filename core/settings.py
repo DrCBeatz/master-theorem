@@ -27,10 +27,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
     'rest_framework',
+    'corsheaders',
     # Local
     'accounts.apps.AccountsConfig',
-    'mastertheorem',
-    'corsheaders',
+    'mastertheorem',    
 ]
 
 MIDDLEWARE = [
