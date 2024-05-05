@@ -9,12 +9,13 @@ env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default="*") 
+
+ADMIN_URL = env('DJANGO_ADMIN_URL', default="admin/")
 
 # Application definition
 
