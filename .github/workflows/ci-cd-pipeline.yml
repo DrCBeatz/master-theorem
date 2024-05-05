@@ -98,6 +98,17 @@ jobs:
       - name: Remove MDB API Key
         run: docker-compose exec -T web python manage.py removeapikey
 
+      - name: Set up Python for Profile Management
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Set Profile to Null Before Deployment
+        run: python set_profile_to_null.py
+
       - name: Docker Hub Login
         uses: docker/login-action@v1.8.0
         with:
@@ -114,10 +125,10 @@ jobs:
       - name: Push to Docker Hub
         run: docker push drcbeatz/mastertheorem-aws:latest
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
+      # - name: Set up Python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: "3.9"
 
       - name: Install EB CLI and Deploy
         run: |
