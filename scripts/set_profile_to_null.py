@@ -1,4 +1,4 @@
-# set_profile_to_null.py
+# scripts/set_profile_to_null.py
 import yaml
 import os
 
