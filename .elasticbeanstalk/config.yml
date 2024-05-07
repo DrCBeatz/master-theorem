@@ -12,6 +12,7 @@ global:
   instance_profile: null
   platform_name: null
   platform_version: null
+  # For profile, use eb-cli for development and null for production.
   profile: eb-cli
   repository: null
   sc: git
