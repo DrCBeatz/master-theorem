@@ -105,14 +105,6 @@ This will:
 - Initialize DynamoDB if required.
 - Run `pytest` with coverage reports.
 
-**Simpler approach (no coverage)**:
-
-```bash
-docker compose exec backend pytest backend/tests
-```
-
-> **Note:** The first approach matches the CI pipeline.
-
 ### Frontend Tests
 
 Run React/Vitest tests from the `frontend` directory:

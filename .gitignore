@@ -12,6 +12,7 @@ build/
 db.sqlite3
 static/plots/*.png
 frontend/coverage/
+coverage/
 env.json
 
 # Logs
