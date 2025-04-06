@@ -1,0 +1,79 @@
+# .github/workflows/ci.yml
+
+name: CI Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  # ------------------------------------------------
+  # 1) Backend Tests
+  # ------------------------------------------------
+  backend-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Create external Docker network
+        run: |
+          docker network create sam-network || true
+
+      - name: Build backend test image
+        run: |
+          docker compose -f docker-compose.yml build test
+
+      - name: Run backend tests
+        run: |
+          docker compose -f docker-compose.yml run --rm test /bin/bash -c "
+            python backend/scripts/init_db.py || true
+            pytest --cov=backend --cov-report=term-missing --cov-report=html:coverage/html backend/tests
+          "
+
+  # ------------------------------------------------
+  # 2) Frontend Tests
+  # ------------------------------------------------
+  frontend-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 1) Inject MDB key into package.json before install
+      - name: Add MDB Pro Key
+        run: |
+          cd frontend
+          npm run add-mdb-key
+        env:
+          MDB_PRO_KEY: ${{ secrets.MDB_PRO_KEY }}
+
+      # 2) Install
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+
+      # 3) Run tests
+      - name: Run frontend tests
+        run: |
+          cd frontend
+          npm test
+
+      # 4) Remove MDB key from package.json
+      - name: Remove MDB Pro Key
+        if: always() # ensures it runs even if tests fail
+        run: |
+          cd frontend
+          npm run remove-mdb-key
+        env:
+          MDB_PRO_KEY: ${{ secrets.MDB_PRO_KEY }}
