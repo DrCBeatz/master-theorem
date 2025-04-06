@@ -1,0 +1,21 @@
+# Dockerfile.test
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+ENV PYTHONPATH=/app
+
+# Copy test-specific dependencies
+COPY ./requirements-test.txt /app/requirements-test.txt
+
+# Install test dependencies
+RUN pip install --no-cache-dir -r requirements-test.txt
+
+# Copy the entire app for testing
+COPY . /app
+
+# Set the TESTING environment variable
+ENV TESTING=1
+
+CMD ["pytest", "--cov=backend", "--cov-report=term-missing", "--cov-report=html:coverage/html", "backend/tests"]

@@ -3,14 +3,25 @@ import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  base: "/static/",
   plugins: [react()],
   test: {
     globals: true,
     environment: "jsdom",
-    setupFiles: ['./tests/test-setup.ts']
-  },
-  build: {
-    outDir: "../static/",
+    setupFiles: ["./test-setup.ts"],
+
+    coverage: {
+      reporter: ["text", "lcov", "html"],
+
+      include: ["src/**/*.{js,ts,jsx,tsx}"],
+      exclude: [
+        "node_modules/",
+        "test/",
+        "**/*.d.ts",
+        "**/vite-env.d.ts",
+        "src/main.tsx",
+      ],
+
+      reportsDirectory: "./coverage",
+    },
   },
 });

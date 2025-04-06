@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { MDBInput, MDBSelect, MDBBtn } from "mdb-react-ui-kit";
 import { SelectData } from "mdb-react-ui-kit/dist/types/pro/forms/SelectV2/types";
 
+import { getAlgorithms } from "../../services/apiService";
+
 interface AlgorithmType {
   id: number;
   name: string;
@@ -45,15 +47,9 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
   useEffect(() => {
     const fetchAlgorithms = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/algorithms`
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setAlgorithms(data); // Store fetched algorithms
+        // Use service function
+        const data = await getAlgorithms();
+        setAlgorithms(data);
       } catch (error) {
         console.error("Failed to fetch algorithms:", error);
       }
@@ -64,11 +60,11 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
   const handleIntegerInputChange = (
     value: string,
     setter: React.Dispatch<React.SetStateAction<string>>,
-    updateCallback: (value: string) => void // Add this parameter to receive the corresponding update callback
+    updateCallback: (value: string) => void
   ) => {
     if (/^\d*$/.test(value)) {
       setter(value);
-      updateCallback(value); // Call the update callback with the new value
+      updateCallback(value);
     }
   };
 
@@ -78,9 +74,8 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
     if (typeof value === "string") {
       const algorithmId = parseInt(value, 10);
 
-      // Check if the "Enter Values" option was selected
       if (algorithmId === -1) {
-        setInputsDisabled(false); // Enable the inputs
+        setInputsDisabled(false);
         setA("");
         setB("");
         setK("");
@@ -90,7 +85,6 @@ const AlgorithmForm: React.FC<AlgorithmFormProps> = ({
 
         setSelectedAlgorithmId(null);
       } else {
-        // Proceed with finding and setting the selected algorithm
         const selectedAlg =
           algorithms.find((alg) => alg.id === algorithmId) || null;
 

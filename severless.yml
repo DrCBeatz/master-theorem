@@ -1,0 +1,25 @@
+service: master-theorem-fastapi
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: us-east-1
+
+functions:
+  app:
+    handler: handler.run
+    events:
+      - http:
+          path: /
+          method: ANY
+      - http:
+          path: '{proxy+}'
+          method: ANY
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    layer: true

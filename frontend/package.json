@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "add-mdb-key": "node ../backend/scripts/addKey.js",
+    "remove-mdb-key": "node ../backend/scripts/removeKey.js",
     "test": "vitest",
     "test:watch": "vitest watch",
     "test:coverage": "vitest --coverage",
@@ -30,10 +32,12 @@
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/coverage-v8": "^1.4.0",
+    "canvas": "^2.11.2",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "jsdom": "^24.0.0",
+    "resize-observer-polyfill": "^1.5.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.4",
     "vitest": "^1.4.0"

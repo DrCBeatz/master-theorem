@@ -1,0 +1,50 @@
+[
+  {
+    "id": 2,
+    "name": "Binary Search",
+    "a": 1,
+    "b": 2,
+    "k": 0,
+    "description": "The Recursive Binary Search algorithm is an efficient method for finding the position of an element within a sorted array. The algorithm divides the search interval in half by comparing the target value to the middle element of the array. If the target value matches the middle element, its position is returned. If the target value is less than the middle element, the search continues in the left half of the array. Conversely, if the target value is greater, the search proceeds in the right half. This process is repeated recursively until the target value is found or the search interval is empty. Binary search operates on the principle of divide and conquer, significantly reducing the time complexity compared to a linear search, especially for large arrays.",
+    "python_code": "def binary_search(arr, x): ...",
+    "case": "Case 2: Θ(log n)",
+    "time_complexity": "Θ(log n)",
+    "complexity_analysis": ""
+  },
+  {
+    "id": 1,
+    "name": "Merge Sort",
+    "a": 2,
+    "b": 2,
+    "k": 1,
+    "description": "Merge Sort is a highly efficient, comparison-based, divide-and-conquer sorting algorithm. It operates by dividing the unsorted list into n sublists, each containing one element (a list of one element is considered sorted). Then, it repeatedly merges sublists to produce new sorted sublists until there is only one sublist remaining, which is the sorted list. The merge step is crucial, combining two sorted arrays into one sorted array efficiently. This algorithm demonstrates significant improvement in time complexity over simpler algorithms like bubble sort, particularly for large datasets.",
+    "python_code": "def merge_sort(arr): ...",
+    "case": "Case 2: Θ(n log n)",
+    "time_complexity": "Θ(n log n)",
+    "complexity_analysis": ""
+  },
+  {
+    "id": 3,
+    "name": "Strassen's Matrix Algorithm",
+    "a": 7,
+    "b": 2,
+    "k": 1,
+    "description": "Strassen's Matrix Multiplication algorithm is a groundbreaking method that reduces the traditional computational complexity of multiplying two n x n matrices. Instead of performing eight multiplications for each partition of the matrix (as in standard divide-and-conquer approaches), Strassen's algorithm manages to perform the multiplication using only seven multiplications per partition, exploiting the additivity and distributivity of matrix operations. This clever optimization reduces the overall complexity from Θ(n^3) to approximately Θ(n^2.81), offering significant improvements for large matrices. The algorithm is a seminal example of how algorithmic ingenuity can lead to more efficient solutions for computationally intensive tasks.",
+    "python_code": "def strassen_matrix_multiply(A, B): ...",
+    "case": "Case 1: Θ(n<sup>logb(a)</sup>)",
+    "time_complexity": "Θ(n log n)",
+    "complexity_analysis": "Θ(n<sup>log<sub>2</sub>(7)</sup>)"
+  },
+  {
+    "id": 4,
+    "name": "Karatsuba Multiplication Algorithm",
+    "a": 3,
+    "b": 2,
+    "k": 1,
+    "description": "The Karatsuba algorithm is an efficient algorithm for multiplication that represents a significant improvement over the traditional method. Discovered by Anatolii Alexeevitch Karatsuba in 1960, it was the first multiplication algorithm asymptotically faster than the quadratic 'grade-school' algorithm. The Karatsuba algorithm applies to numbers of any size and works by dividing the input numbers into two halves, recursively multiplying the halves, and then combining the results using a specific formula.",
+    "python_code": "def karatsuba(x, y): ...",
+    "case": "Case 1: Θ(n<sup>logb(a)</sup>)",
+    "time_complexity": "Θ(n log n)",
+    "complexity_analysis": "Θ(n<sup>log<sub>2</sub>(3)</sup>)"
+  }
+]

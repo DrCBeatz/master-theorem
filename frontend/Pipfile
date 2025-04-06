@@ -4,10 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "*"
-uvicorn = "*"
-serverless-pypi = "*"
-numpy = "*"
 
 [dev-packages]
 
