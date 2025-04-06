@@ -3,7 +3,7 @@ service: master-theorem-fastapi
 provider:
   name: aws
   runtime: python3.9
-  region: us-east-1
+  region: us-east-2
 
 functions:
   app:
@@ -13,7 +13,7 @@ functions:
           path: /
           method: ANY
       - http:
-          path: '{proxy+}'
+          path: "{proxy+}"
           method: ANY
 
 plugins:
