@@ -1,77 +1,136 @@
 # Master Theorem Evaluation Web App
 
-This web application allows users to evaluate recursive divide and conquer algorithms using the Master Theorem and determine their time complexity, providing valuable insights into algorithm performance.
+This web application allows users to evaluate recursive divide-and-conquer algorithms using the Master Theorem to determine their time complexity, providing valuable insights into algorithm performance.
 
-Algorithms with the following recurrence relation (known as the Master Recurrence) can be evaluated using the Master Theorem:
+Algorithms with the following recurrence relation (Master Recurrence) can be evaluated:
 
-`T(n) = aT(n/b) + f(n)`
+```
+T(n) = aT(n/b) + f(n)
+```
 
-where a > 0 and b > 1
+where:
 
-- a = the number of recursive subproblems
-- b = the factor by which the problem size is reduced
-- k = the exponent of the work outside the recursion
+- **a** = number of recursive subproblems (a > 0)
+- **b** = factor by which the problem size is reduced (b > 1)
+- **k** = exponent of the work outside the recursion
 
 ## Features
 
-- Evaluate the time complexity of divide and conquer algorithms.
-- Visualization of algorithm performance.
-- Comparison between different algorithms through preset options.
-- Python code and description of preset algorithms.
+- Evaluate the time complexity of divide-and-conquer algorithms.
+- Visualize algorithm performance.
+- Compare preset algorithms (e.g., binary search, merge sort).
+- View Python code and descriptions for preset algorithms.
 
-## How to use the app:
+## How to Use the App
 
-1. Enter your own values for a, b, and k in the respective input fields.
-2. Ensure the 'User Input' option is selected under 'Enter Values or Choose Algorithm'.
-3. Click the 'Evaluate' button to see the results.
+1. Enter your values for **a**, **b**, and **k** in the input fields.
+2. Select 'User Input' under 'Enter Values or Choose Algorithm'.
+3. Click **Evaluate** to see results.
 
-Try the following sample inputs:
+### Example Inputs:
 
 - a = 4, b = 2, k = 1
 - a = 4, b = 2, k = 2
 - a = 4, b = 2, k = 3
 
-You can also choose from various preset algorithms (e.g., binary search or merge sort) by clicking the 'Enter Values or Choose Algorithm' select field, then click 'Evaluate'. You'll be able to see sample code and a description of the algorithm below the evaluation.
+Or choose preset algorithms from the dropdown, then click **Evaluate** to see algorithm details.
 
-## How to install locally
+## Local Installation
 
-### Installation requirements:
+### Prerequisites:
 
 - Docker CLI
-- NPM
+- Node Package Manager (NPM)
+- Material Design for Bootstrap Pro for React (MDB Pro)
 
-At the command line/terminal, type the following commands.
+### MDB Pro Setup
+
+This project requires Material Design for Bootstrap Pro for React to run locally. You must include your MDB Pro key using the `MDB_PRO_KEY` environment variable.
+
+Before starting the Docker container, run:
+
+```bash
+cd frontend
+npm run add-mdb-key
+cd ..
+```
+
+Before committing changes to GitHub, ensure your MDB key is not included by running:
+
+```bash
+cd frontend
+npm run remove-mdb-key
+cd ..
+```
+
+### Clone and Setup
+
+Clone and navigate to the project:
 
 ```bash
 git clone https://github.com/drcbeatz/master-theorem.git
-
 cd master-theorem
-
-docker compose build
-
-docker compose up -d
-
-cd frontend
-
-npm install
-
-npm run dev
 ```
 
-(then click on the link to view the React front end in your web browser).
-
-You can also run the backend tests in the root directory with the following command:
+Build and run Docker containers:
 
 ```bash
-docker compose exec web pytest
+docker compose build
+docker compose up -d
 ```
 
-To run the front end tests, go to the 'frontend' directory and type the following command:
+Containers launched:
+
+- Backend service at **port 8000**
+- Frontend service at **port 5173**
+- Local DynamoDB at **port 8001**
+
+## Running Tests
+
+### Backend Tests
+
+From the project's root directory:
+
+**Run tests with coverage (recommended)**:
+
+```bash
+docker compose run --rm test /bin/bash -c "
+  python backend/scripts/init_db.py || true
+  pytest --cov=backend --cov-report=term-missing --cov-report=html:coverage/html backend/tests
+"
+```
+
+This will:
+
+- Initialize DynamoDB if required.
+- Run `pytest` with coverage reports.
+
+**Simpler approach (no coverage)**:
+
+```bash
+docker compose exec backend pytest backend/tests
+```
+
+> **Note:** The first approach matches the CI pipeline.
+
+### Frontend Tests
+
+Run React/Vitest tests from the `frontend` directory:
 
 ```bash
 npm test
 ```
 
+To view test coverage:
+
+```bash
+npm run test:coverage
+```
+
 ## References
 
 - Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2022). _Introduction to Algorithms_ (4th ed.). MIT Press.
+
+---
+
+Happy Coding! If you encounter issues, please open an issue or submit a pull request.
