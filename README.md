@@ -75,8 +75,7 @@ cd master-theorem
 Build and run Docker containers:
 
 ```bash
-docker compose build
-docker compose up -d
+docker compose up -d --build
 ```
 
 Containers launched:
