@@ -19,7 +19,7 @@
     "b": 2,
     "k": 1,
     "description": "Merge Sort is a highly efficient, comparison-based, divide-and-conquer sorting algorithm. It operates by dividing the unsorted list into n sublists, each containing one element (a list of one element is considered sorted). Then, it repeatedly merges sublists to produce new sorted sublists until there is only one sublist remaining, which is the sorted list. The merge step is crucial, combining two sorted arrays into one sorted array efficiently. This algorithm demonstrates significant improvement in time complexity over simpler algorithms like bubble sort, particularly for large datasets.",
-    "python_code": "def merge_sort(arr): ...",
+    "python_code": "from typing import List\n\ndef merge_sort(nums: List[int]) -> List[int]:\n\tif len(nums) > 1:\n\t\tmid = len(nums) // 2\n\t\tL = nums[:mid]\n\t\tR = nums[mid:]\n\n\t\tmerge_sort(L)\n\t\tmerge_sort(R)\n\n\t\ti = j = k = 0\n\n\t\twhile i < len(L) and j < len(R):\n\t\t\tif L[i] < R[j]:\n\t\t\t\tnums[k] = L[i]\n\t\t\t\ti += 1\n\t\t\telse:\n\t\t\t\tnums[k] = R[j]\n\t\t\t\tj += 1\n\t\t\tk += 1\n\n\t\twhile i < len(L):\n\t\t\tnums[k] = L[i]\n\t\t\ti += 1\n\t\t\tk += 1\n\n\t\twhile j < len(R):\n\t\t\tnums[k] = R[j]\n\t\t\tj += 1\n\t\t\tk += 1\n\n\treturn nums",
     "case": "Case 2: Θ(n log n)",
     "time_complexity": "Θ(n log n)",
     "complexity_analysis": ""
