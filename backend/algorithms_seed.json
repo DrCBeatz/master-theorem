@@ -6,7 +6,8 @@
     "b": 2,
     "k": 0,
     "description": "The Recursive Binary Search algorithm is an efficient method for finding the position of an element within a sorted array. The algorithm divides the search interval in half by comparing the target value to the middle element of the array. If the target value matches the middle element, its position is returned. If the target value is less than the middle element, the search continues in the left half of the array. Conversely, if the target value is greater, the search proceeds in the right half. This process is repeated recursively until the target value is found or the search interval is empty. Binary search operates on the principle of divide and conquer, significantly reducing the time complexity compared to a linear search, especially for large arrays.",
-    "python_code": "def binary_search(arr, x): ...",
+
+    "python_code": "from typing import List, Optional\n\ndef binary_search(arr: List[int], target: int, low: int = 0, high: Optional[int] = None) -> int:\n\tif high is None:\n\t\thigh = len(arr) - 1\n\n\tif low > high:\n\t\treturn -1\n\n\tmid = (low + high) // 2\n\n\tif arr[mid] == target:\n\t\treturn mid\n\telif target < arr[mid]:\n\t\treturn binary_search(arr, target, low, mid - 1)\n\telse:\n\t\treturn binary_search(arr, target, mid + 1, high)",
     "case": "Case 2: Θ(log n)",
     "time_complexity": "Θ(log n)",
     "complexity_analysis": ""
