@@ -19,10 +19,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Create external Docker network
-        run: |
-          docker network create sam-network || true
-
       - name: Build backend test image
         run: |
           docker compose -f docker-compose.yml build test
