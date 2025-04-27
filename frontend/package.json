@@ -4,8 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "preinstall": "node ./scripts/addKey.cjs",
-    "postinstall": "node ./scripts/removeKey.cjs",
+    "setup": "bash -c 'node scripts/addKey.cjs && npm install; status=$?; node scripts/removeKey.cjs; exit $status'",
     "test": "vitest",
     "test:watch": "vitest watch",
     "test:coverage": "vitest --coverage",
