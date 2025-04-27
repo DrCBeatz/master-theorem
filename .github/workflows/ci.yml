@@ -37,22 +37,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
 
-      # 2) Install
-      - name: Install frontend dependencies
+      # native libs for canvas
+      - name: Install canvas build libs
         run: |
-          cd frontend
-          npm install
+          sudo apt-get update -y
+          sudo apt-get install -y \
+            build-essential libcairo2-dev libpango1.0-dev libjpeg-dev \
+            libgif-dev librsvg2-dev pkg-config
 
-      # 3) Run tests
-      - name: Run frontend tests
+      # inject key → install → scrub key (always)
+      - name: Install deps (with key management)
+        working-directory: frontend
+        env:
+          MDB_PRO_KEY: ${{ secrets.MDB_PRO_KEY }}
+        shell: bash
         run: |
-          cd frontend
-          npm test
+          # quick sanity check (prints *** if set, empty otherwise)
+          if [ -z "$MDB_PRO_KEY" ]; then
+            echo "::error::MDB_PRO_KEY is empty – check repo secrets"; exit 1; fi
+          echo "Token length: ${#MDB_PRO_KEY} (masked)"
+          set -e
+          node scripts/addKey.cjs
+          npm ci --prefer-offline --no-audit --omit=optional
+          node scripts/removeKey.cjs
+
+      - name: Run Vitest suite
+        working-directory: frontend
+        run: npm test -- --run
+
