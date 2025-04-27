@@ -24,7 +24,10 @@ services:
       - default
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        MDB_PRO_KEY: ${MDB_PRO_KEY}
     ports:
       - "5173:5173"
     volumes:

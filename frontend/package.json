@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "add-mdb-key": "node ../backend/scripts/addKey.js",
-    "remove-mdb-key": "node ../backend/scripts/removeKey.js",
+    "preinstall": "node ./scripts/addKey.cjs",
+    "postinstall": "node ./scripts/removeKey.cjs",
     "test": "vitest",
     "test:watch": "vitest watch",
     "test:coverage": "vitest --coverage",
