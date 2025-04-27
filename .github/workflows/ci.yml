@@ -45,14 +45,6 @@ jobs:
         with:
           node-version: 18
 
-      # 1) Inject MDB key into package.json before install
-      - name: Add MDB Pro Key
-        run: |
-          cd frontend
-          npm run add-mdb-key
-        env:
-          MDB_PRO_KEY: ${{ secrets.MDB_PRO_KEY }}
-
       # 2) Install
       - name: Install frontend dependencies
         run: |
@@ -64,12 +56,3 @@ jobs:
         run: |
           cd frontend
           npm test
-
-      # 4) Remove MDB key from package.json
-      - name: Remove MDB Pro Key
-        if: always() # ensures it runs even if tests fail
-        run: |
-          cd frontend
-          npm run remove-mdb-key
-        env:
-          MDB_PRO_KEY: ${{ secrets.MDB_PRO_KEY }}
