@@ -66,7 +66,7 @@ jobs:
           echo "Token length: ${#MDB_PRO_KEY} (masked)"
           set -e
           node scripts/addKey.cjs
-          npm ci --prefer-offline --no-audit --omit=optional
+          npm ci --prefer-offline --no-audit
           node scripts/removeKey.cjs
 
       - name: Run Vitest suite
